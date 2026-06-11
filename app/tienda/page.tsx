@@ -121,6 +121,7 @@ export default function TiendaPage() {
   const [products, setProducts] = useState<DBProduct[]>([]);
   const [loading, setLoading]   = useState(true);
   const [search, setSearch]     = useState("");
+  const [filterOpen, setFilterOpen] = useState(false);
 
   const [cats,  setCats]  = useState<string[]>([]);
   const [sizes, setSizes] = useState<string[]>([]);
@@ -174,6 +175,38 @@ export default function TiendaPage() {
     setPriceMin(absMin); setPriceMax(absMax); setSearch("");
   }
 
+  const filterPanel = (
+    <div className="flex flex-col gap-7">
+      <div className="mb-0">
+        <h4 className="text-base text-boko-muted mb-4">Por categoría</h4>
+        <div className="flex flex-col gap-3">
+          {CATS.map(c => <Checkbox key={c} label={c} checked={cats.includes(c)} onChange={() => toggleCat(c)} />)}
+        </div>
+      </div>
+      <div className="border-b border-boko-border" />
+      <div>
+        <h4 className="text-base text-boko-muted mb-4">Por tamaño</h4>
+        <div className="flex flex-col gap-3">
+          {SIZES.map(s => <Checkbox key={s} label={s} checked={sizes.includes(s)} onChange={() => toggleSize(s)} />)}
+        </div>
+      </div>
+      <div className="border-b border-boko-border" />
+      <div>
+        <h4 className="text-base text-boko-muted mb-3">Por precio</h4>
+        <PriceSlider absMin={absMin} absMax={absMax} valMin={priceMin} valMax={priceMax} onMin={setPriceMin} onMax={setPriceMax} />
+      </div>
+      <div className="border-b border-boko-border" />
+      <div>
+        <h4 className="text-base text-boko-muted mb-4">Por popularidad</h4>
+        <div className="flex flex-col gap-3">
+          <RadioBtn label="Más nuevos"            checked={sort === "nuevos"}      onChange={() => setSort("nuevos")} />
+          <RadioBtn label="Precio: menor a mayor" checked={sort === "precio_asc"}  onChange={() => setSort("precio_asc")} />
+          <RadioBtn label="Precio: mayor a menor" checked={sort === "precio_desc"} onChange={() => setSort("precio_desc")} />
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <div>
       <div className="relative w-full h-70 overflow-hidden">
@@ -183,10 +216,39 @@ export default function TiendaPage() {
         </div>
       </div>
 
-      <div className="max-w-[1512px] mx-auto px-24 py-10">
+      {/* Modal filtros móvil */}
+      {filterOpen && (
+        <div className="md:hidden fixed inset-0 z-50 flex flex-col bg-white overflow-y-auto">
+          <div className="flex items-center justify-between px-6 py-5 border-b border-boko-border sticky top-0 bg-white">
+            <h3 className="font-serif text-3xl font-bold text-boko-dark">Filtros</h3>
+            <button onClick={() => setFilterOpen(false)} className="text-boko-muted hover:text-boko-dark transition-colors">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round">
+                <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+          </div>
+          <div className="px-6 py-6 flex-1">
+            {filterPanel}
+          </div>
+          <div className="px-6 py-4 border-t border-boko-border sticky bottom-0 bg-white flex gap-3">
+            {hasFilters && (
+              <button onClick={() => { clearFilters(); setFilterOpen(false); }}
+                className="flex-1 py-3 rounded-xl border border-boko-border text-sm text-boko-dark font-medium">
+                Limpiar
+              </button>
+            )}
+            <button onClick={() => setFilterOpen(false)}
+              className="flex-1 py-3 rounded-xl bg-[#796a73] text-white text-sm font-medium">
+              Ver resultados
+            </button>
+          </div>
+        </div>
+      )}
+
+      <div className="max-w-[1512px] mx-auto px-4 md:px-24 py-10">
         <div className="flex gap-14">
 
-          {/* Sidebar filtros */}
+          {/* Sidebar filtros — solo desktop */}
           <aside className="hidden md:block w-[210px] shrink-0">
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-serif text-3xl font-bold text-boko-dark">Filtros</h3>
@@ -195,40 +257,13 @@ export default function TiendaPage() {
               )}
             </div>
             <div className="border-b border-boko-border mb-7" />
-
-            <div className="mb-7">
-              <h4 className="text-base text-boko-muted mb-4">Por categoría</h4>
-              <div className="flex flex-col gap-3">
-                {CATS.map(c => <Checkbox key={c} label={c} checked={cats.includes(c)} onChange={() => toggleCat(c)} />)}
-              </div>
-            </div>
-
-            <div className="mb-7">
-              <h4 className="text-base text-boko-muted mb-4">Por tamaño</h4>
-              <div className="flex flex-col gap-3">
-                {SIZES.map(s => <Checkbox key={s} label={s} checked={sizes.includes(s)} onChange={() => toggleSize(s)} />)}
-              </div>
-            </div>
-
-            <div className="mb-7">
-              <h4 className="text-base text-boko-muted mb-3">Por precio</h4>
-              <PriceSlider absMin={absMin} absMax={absMax} valMin={priceMin} valMax={priceMax} onMin={setPriceMin} onMax={setPriceMax} />
-            </div>
-
-            <div className="mb-7">
-              <h4 className="text-base text-boko-muted mb-4">Por popularidad</h4>
-              <div className="flex flex-col gap-3">
-                <RadioBtn label="Más nuevos"           checked={sort === "nuevos"}      onChange={() => setSort("nuevos")} />
-                <RadioBtn label="Precio: menor a mayor" checked={sort === "precio_asc"}  onChange={() => setSort("precio_asc")} />
-                <RadioBtn label="Precio: mayor a menor" checked={sort === "precio_desc"} onChange={() => setSort("precio_desc")} />
-              </div>
-            </div>
+            {filterPanel}
           </aside>
 
           {/* Contenido principal */}
           <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-5 mb-6">
-              <h2 className="font-serif text-4xl font-bold text-[#796a73] shrink-0">Artículos</h2>
+            <div className="flex items-center gap-3 mb-6">
+              <h2 className="font-serif text-3xl md:text-4xl font-bold text-[#796a73] shrink-0">Artículos</h2>
               <div className="flex-1 relative">
                 <svg className="absolute left-4 top-1/2 -translate-y-1/2 text-boko-muted" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
@@ -236,6 +271,14 @@ export default function TiendaPage() {
                 <input type="text" placeholder="Buscar" value={search} onChange={e => setSearch(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 rounded-full border border-boko-border bg-white text-sm text-boko-dark placeholder:text-boko-muted focus:outline-none focus:border-boko-muted" />
               </div>
+              {/* Botón filtros — solo móvil */}
+              <button onClick={() => setFilterOpen(true)}
+                className="md:hidden flex items-center gap-2 px-4 py-3 rounded-full border border-boko-border bg-white text-sm text-boko-dark shrink-0">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="4" y1="6" x2="20" y2="6" /><line x1="8" y1="12" x2="16" y2="12" /><line x1="11" y1="18" x2="13" y2="18" />
+                </svg>
+                Filtros{hasFilters ? ` (${cats.length + sizes.length + (sort !== "nuevos" ? 1 : 0)})` : ""}
+              </button>
             </div>
 
             <p className="text-base text-boko-dark font-medium mb-8">
@@ -271,7 +314,7 @@ export default function TiendaPage() {
         </div>
       </div>
 
-      <div className="max-w-[1512px] mx-auto px-24 pt-4 pb-16">
+      <div className="max-w-[1512px] mx-auto px-4 md:px-24 pt-4 pb-16">
         <div className="flex flex-col md:flex-row gap-10 items-center justify-center">
           {[
             { icon: "/images/icons/icon-box.svg",     title: "Envío gratis",    desc: "Envío gratis a partir de $150.000" },

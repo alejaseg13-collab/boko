@@ -13,8 +13,8 @@ export default function HomePage() {
       {/* Featured bar: -mt-14 sube el bloque 56px dentro del carousel.
           El fondo cream empieza exactamente en top-14 (= 56px) para que
           coincida con el borde del carousel — las tarjetas flotan mitad/mitad. */}
-      <div className="relative z-10 -mt-14">
-        <div className="absolute top-14 inset-x-0 bottom-0 bg-boko-cream" />
+      <div className="relative z-10 md:-mt-14">
+        <div className="absolute md:top-14 top-0 inset-x-0 bottom-0 bg-boko-cream" />
         <div className="relative max-w-[1512px] mx-auto px-6 pb-8">
           <div className="flex flex-col md:flex-row gap-10 items-center justify-center">
             {[
@@ -57,35 +57,23 @@ export default function HomePage() {
         </div>
         <div className="pt-36 pb-16">
           <div className="max-w-[1512px] mx-auto px-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
               <div>
                 <p className="text-white text-base leading-relaxed text-justify">
                   Más que figuras de crochet, creamos vínculos. Bajo el concepto de tejer el alma, cada una de nuestras piezas nace para transformar hilos en personajes con propósito y sentimiento. Si tienes en mente un héroe de serie, cine o videojuego que no está en nuestra tienda, gestionamos tu pedido personalizado para darle forma a esa idea que quieres conservar.
                 </p>
               </div>
-              <div className="flex gap-12 justify-center md:justify-end items-center">
+              <div className="flex gap-8 md:gap-12 justify-center md:justify-end items-center">
                 <div className="flex flex-col items-center gap-3 text-center">
-                  {/* Yarn ball icon */}
-                  <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round">
-                    <circle cx="24" cy="24" r="18" />
-                    <path d="M10 18 C14 12 34 12 38 18" />
-                    <path d="M7 26 C12 20 36 20 41 26" />
-                    <path d="M10 34 C14 28 34 28 38 34" />
-                    <path d="M24 6 C20 16 20 32 24 42" />
-                    <path d="M24 6 C28 16 28 32 24 42" />
-                  </svg>
+                  <Image src="/images/icons/icon-personajes.svg" alt="" width={48} height={48} />
                   <p className="font-serif text-5xl font-bold text-white">200+</p>
-                  <p className="text-white/80 text-sm max-w-[140px]">Personajes diferentes creados bajo pedido.</p>
+                  <p className="text-white/80 text-sm">Personajes diferentes<br />creados bajo pedido.</p>
                 </div>
                 <div className="w-px bg-white/30 self-stretch" />
                 <div className="flex flex-col items-center gap-3 text-center">
-                  {/* Chat bubble with star icon */}
-                  <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M8 10 H40 Q42 10 42 12 V30 Q42 32 40 32 H26 L20 40 L20 32 H8 Q6 32 6 30 V12 Q6 10 8 10 Z" />
-                    <polygon points="24,16 25.5,20.5 30,21 26.5,24.5 27.5,29 24,26.5 20.5,29 21.5,24.5 18,21 22.5,20.5" fill="white" stroke="none" />
-                  </svg>
+                  <Image src="/images/icons/icon-satisfaccion.svg" alt="" width={48} height={48} />
                   <p className="font-serif text-5xl font-bold text-white">4.9/5</p>
-                  <p className="text-white/80 text-sm max-w-[140px]">Nivel de satisfacción en la fidelidad del diseño.</p>
+                  <p className="text-white/80 text-sm">Nivel de satisfacción<br />en la fidelidad del diseño.</p>
                 </div>
               </div>
             </div>
@@ -97,29 +85,22 @@ export default function HomePage() {
 
       {/* Nuestra esencia - texto */}
       <section className="pt-2 pb-4 bg-boko-cream">
-        <div className="max-w-[1512px] mx-auto px-24">
+        <div className="max-w-[1512px] mx-auto px-6 md:px-24">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-0 items-center">
             {/* Imagen grande pegada al texto */}
-            <div className="relative min-h-80 md:min-h-136">
+            <div className="relative min-h-64 md:min-h-136">
               <Image
                 src="/images/products/nuestra-esencia-2.png"
                 alt="Nuestra esencia - piezas artesanales"
                 fill
-                className="object-contain object-left"
+                className="object-contain object-center md:object-left"
                 sizes="(max-width: 768px) 100vw, 50vw"
               />
             </div>
 
             {/* Contenido */}
-            <div className="flex flex-col gap-5">
-              {/* Ícono dos siluetas */}
-              <svg width="56" height="56" viewBox="0 0 56 56" fill="none" stroke="#796a73" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-                <ellipse cx="28" cy="28" rx="26" ry="26" />
-                <circle cx="21" cy="20" r="6" />
-                <path d="M10 42c0-6 5-10 11-10s8 2.5 9 4" />
-                <circle cx="35" cy="20" r="6" />
-                <path d="M46 42c0-6-5-10-11-10s-8 2.5-9 4" />
-              </svg>
+            <div className="flex flex-col gap-5 pb-8 md:pb-0">
+              <Image src="/images/icons/nuestra_esencia.svg" alt="" width={56} height={56} />
 
               <p className="text-boko-muted text-sm italic">El arte de tejer el alma</p>
 
@@ -145,7 +126,7 @@ export default function HomePage() {
             <div className="grid grid-cols-1 md:grid-cols-2">
 
               {/* Izquierda */}
-              <div className="flex flex-col gap-6 p-12 border-r border-boko-border justify-center">
+              <div className="flex flex-col gap-6 p-6 md:p-12 border-b md:border-b-0 md:border-r border-boko-border justify-center">
                 <Image
                   src="/images/logo.png"
                   alt="Bokō"
@@ -163,7 +144,7 @@ export default function HomePage() {
               </div>
 
               {/* Derecha */}
-              <div className="flex flex-col gap-5 p-12">
+              <div className="flex flex-col gap-5 p-6 md:p-12">
                 <h3 className="font-serif text-3xl text-[#796a73] leading-tight">
                   Démosle <span className="font-bold italic">vida a tu idea.</span>
                 </h3>

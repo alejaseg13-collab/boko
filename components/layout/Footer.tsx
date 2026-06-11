@@ -20,10 +20,10 @@ const headingColor = "text-[#c9c1c6]";
 export default function Footer() {
   return (
     <footer style={{ backgroundColor: "#796a73" }} className="rounded-t-3xl">
-      <div className="max-w-[1512px] mx-auto px-16 pt-10 pb-6">
+      <div className="max-w-[1512px] mx-auto px-6 md:px-16 pt-10 pb-6">
 
         {/* Main row */}
-        <div className="flex flex-wrap gap-16 pb-8 border-b border-white/20 items-start">
+        <div className="flex flex-wrap gap-8 md:gap-16 pb-8 border-b border-white/20 items-start">
 
           {/* Logo */}
           <div className="shrink-0 self-center">
@@ -82,7 +82,7 @@ export default function Footer() {
           </div>
 
           {/* Síguenos */}
-          <div className="ml-auto self-center">
+          <div className="md:ml-auto self-center">
             <h4 className={`font-bold text-xl mb-4 ${headingColor}`}>Síguenos</h4>
             <div className="flex items-center gap-4 bg-boko-cream rounded-2xl px-5 py-3">
               <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="text-[#796a73] hover:opacity-70 transition-opacity">
