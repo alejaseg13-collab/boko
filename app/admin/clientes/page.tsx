@@ -21,13 +21,14 @@ export default function AdminClientesPage() {
   useEffect(() => {
     async function load() {
       // Load all customer profiles
-      const { data: profiles } = await supabase
+      type ProfileRow = { id: string; nombre: string | null; apellidos: string | null; email: string | null; telefono: string | null; avatar_url: string | null };
+      const { data: profilesRaw } = await supabase
         .from("profiles")
-        .select("id, nombre, apellidos, email, telefono, avatar_url, role")
+        .select("id, nombre, apellidos, email, telefono, avatar_url")
         .eq("role", "customer")
         .order("created_at", { ascending: false });
 
-      if (!profiles) { setLoading(false); return; }
+      const profiles = (profilesRaw ?? []) as ProfileRow[];
 
       // Count orders per user
       const { data: orderCounts } = await supabase
@@ -41,11 +42,11 @@ export default function AdminClientesPage() {
 
       setClients(profiles.map(p => ({
         id: p.id,
-        nombre: p.nombre ?? null,
-        apellidos: p.apellidos ?? null,
-        email: p.email ?? null,
-        telefono: p.telefono ?? null,
-        avatar_url: p.avatar_url ?? null,
+        nombre: p.nombre,
+        apellidos: p.apellidos,
+        email: p.email,
+        telefono: p.telefono,
+        avatar_url: p.avatar_url,
         order_count: countMap[p.id] ?? 0,
       })));
       setLoading(false);
