@@ -40,7 +40,12 @@ export default function AdminClientesPage() {
       });
 
       setClients(profiles.map(p => ({
-        ...p,
+        id: p.id,
+        nombre: p.nombre ?? null,
+        apellidos: p.apellidos ?? null,
+        email: p.email ?? null,
+        telefono: p.telefono ?? null,
+        avatar_url: p.avatar_url ?? null,
         order_count: countMap[p.id] ?? 0,
       })));
       setLoading(false);
