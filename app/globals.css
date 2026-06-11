@@ -1,0 +1,49 @@
+@import "tailwindcss";
+
+/* Vendura — fuente principal del sitio */
+@font-face {
+  font-family: "Vendura";
+  src: url("/fonts/Vendura-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Vendura";
+  src: url("/fonts/Vendura-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Vendura";
+  src: url("/fonts/Vendura-UltraBold.woff") format("woff");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme inline {
+  /* Colores Bokō */
+  --color-boko-cream: #fdfdfd;
+  --color-boko-dark: #2B1A0E;
+  --color-boko-footer: #4A3F3A;
+  --color-boko-muted: #9B8B7E;
+  --color-boko-border: #E0D5C8;
+  --color-boko-white: #FFFFFF;
+
+  /* Tipografía — Vendura como primaria, Playfair como serif fallback */
+  --font-sans: "Vendura", var(--font-inter), Arial, sans-serif;
+  --font-serif: "Vendura", var(--font-playfair), Georgia, serif;
+}
+
+:root {
+  --background: #fdfdfd;
+  --foreground: #2B1A0E;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "Vendura", var(--font-inter), Arial, sans-serif;
+}
