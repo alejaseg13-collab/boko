@@ -28,7 +28,7 @@ export default function AdminClientesPage() {
         .eq("role", "customer")
         .order("created_at", { ascending: false });
 
-      const profiles = (profilesRaw ?? []) as ProfileRow[];
+      const profiles = (profilesRaw ?? []) as unknown as ProfileRow[];
 
       // Count orders per user
       const { data: orderCounts } = await supabase
