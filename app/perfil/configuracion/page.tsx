@@ -123,6 +123,16 @@ export default function ConfiguracionPage() {
     setProfileError("");
     setProfileLoading(true);
     try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) throw new Error("No hay sesión activa");
+
+      // Si cambió el correo, actualizar en Auth y en profiles
+      if (email && email !== session.user.email) {
+        const { error: emailError } = await supabase.auth.updateUser({ email });
+        if (emailError) throw new Error(emailError.message);
+        await supabase.from("profiles").update({ email }).eq("id", session.user.id);
+      }
+
       await updateProfile({ nombre, apellidos, telefono });
       setProfileSaved(true);
       setTimeout(() => setProfileSaved(false), 2000);
@@ -166,7 +176,7 @@ export default function ConfiguracionPage() {
               <input type="text" value={apellidos} onChange={e => setApellidos(e.target.value)} className={inputClass} />
             </Field>
             <Field label="Correo">
-              <input type="email" value={email} disabled className={`${inputClass} opacity-60 cursor-not-allowed`} />
+              <input type="email" value={email} onChange={e => setEmail(e.target.value)} className={inputClass} />
             </Field>
             <Field label="Teléfono">
               <input type="tel" value={telefono} onChange={e => setTelefono(e.target.value)} className={inputClass} />

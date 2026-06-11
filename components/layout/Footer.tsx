@@ -69,8 +69,8 @@ export default function Footer() {
             <h4 className={`font-bold text-sm mb-4 ${headingColor}`}>Contacto</h4>
             <ul className={`flex flex-col gap-2.5 text-xs ${textColor}`}>
               <li>
-                <a href="mailto:comercial@boko.com" className="hover:text-white transition-colors">
-                  comercial@boko.com
+                <a href="mailto:nubygar@bokocrochet.com" className="hover:text-white transition-colors">
+                  nubygar@bokocrochet.com
                 </a>
               </li>
               <li>
