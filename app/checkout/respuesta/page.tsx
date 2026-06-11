@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import Link from "next/link";
 
-export default function CheckoutRespuestaPage() {
+function RespuestaContent() {
   const params = useSearchParams();
   const [status, setStatus] = useState<"loading" | "success" | "pending" | "rejected">("loading");
   const [ref, setRef] = useState("");
@@ -82,5 +82,13 @@ export default function CheckoutRespuestaPage() {
         </Link>
       </div>
     </div>
+  );
+}
+
+export default function CheckoutRespuestaPage() {
+  return (
+    <Suspense fallback={<div className="min-h-[60vh] flex items-center justify-center"><div className="w-8 h-8 border-2 border-[#796a73] border-t-transparent rounded-full animate-spin" /></div>}>
+      <RespuestaContent />
+    </Suspense>
   );
 }
