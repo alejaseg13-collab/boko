@@ -332,22 +332,22 @@ export default function DetalleProductoPage() {
             )}
 
             {/* Botones de acción */}
-            <div className="flex items-center gap-3 mt-1">
-              <div className="flex items-center border border-boko-border rounded-full overflow-hidden">
-                <button onClick={() => setQty(Math.max(1, qty - 1))} className="w-10 h-10 flex items-center justify-center text-boko-muted hover:text-boko-dark transition-colors">
+            <div className="flex flex-col gap-3 mt-1">
+              <div className="flex items-center gap-2 bg-white rounded-2xl px-3 py-2 shadow-sm w-fit border border-boko-border">
+                <button onClick={() => setQty(Math.max(1, qty - 1))} className="w-9 h-9 flex items-center justify-center text-boko-muted hover:text-boko-dark transition-colors">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14"/></svg>
                 </button>
-                <span className="w-8 text-center text-sm font-semibold text-boko-dark">{qty}</span>
-                <button onClick={() => setQty(qty + 1)} className="w-10 h-10 flex items-center justify-center text-boko-muted hover:text-boko-dark transition-colors">
+                <span className="w-10 h-9 flex items-center justify-center bg-boko-cream rounded-xl text-sm font-semibold text-boko-dark">{qty}</span>
+                <button onClick={() => setQty(qty + 1)} className="w-9 h-9 flex items-center justify-center text-boko-muted hover:text-boko-dark transition-colors">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 5v14M5 12h14"/></svg>
                 </button>
               </div>
               <button onClick={addToCart} disabled={cartAdded}
-                className="flex-1 py-3 rounded-full bg-[#6B9E7A] text-white text-sm font-medium hover:bg-[#557e62] transition-colors disabled:opacity-70 disabled:cursor-default">
+                className="w-full py-4 rounded-2xl bg-[#6B9E7A] text-white text-sm font-medium hover:bg-[#557e62] transition-colors disabled:opacity-70 disabled:cursor-default">
                 {cartAdded ? "¡Añadido!" : "Añadir al carrito"}
               </button>
               <button onClick={buyNow}
-                className="flex-1 py-3 rounded-full bg-boko-dark text-white text-sm font-medium hover:opacity-80 transition-opacity">
+                className="w-full py-4 rounded-2xl bg-[#796a73] text-white text-sm font-medium hover:bg-[#5a4a54] transition-colors">
                 Comprar ahora
               </button>
             </div>
