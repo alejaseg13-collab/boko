@@ -36,15 +36,15 @@ export default function PersonalizadosPage() {
       </section>
 
       {/* Intro con imagen */}
-      <section className="py-16">
-        <div className="max-w-378 mx-auto px-16">
+      <section className="py-8 md:py-16">
+        <div className="max-w-378 mx-auto px-6 md:px-16">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            <div className="flex flex-col gap-5">
-              <h2 className="font-serif text-6xl font-bold text-[#796a73] leading-tight">
+            <div className="flex flex-col gap-5 items-center text-center md:items-start md:text-left">
+              <h2 className="font-serif text-4xl md:text-6xl font-bold text-[#796a73] leading-tight">
                 Tu historia en<br />cada punto
               </h2>
               <p className="text-gray-400 text-base">Una experiencia de creación personalizada</p>
-              <ul className="flex flex-col gap-6 text-base text-gray-400 mt-2">
+              <ul className="flex flex-col gap-4 text-base text-gray-400 mt-2 text-left">
                 {[
                   { bold: "Proporciones a medida:", text: "Desde miniaturas hasta versiones muy grandes, adaptamos el volumen y la estructura." },
                   { bold: "Creaciones desde cero:", text: "Si a quien buscas aún no reside en nuestra tienda, le damos vida." },
@@ -59,7 +59,7 @@ export default function PersonalizadosPage() {
             </div>
 
             {/* Imagen con espiral decorativo */}
-            <div className="relative flex items-center justify-center min-h-[420px]">
+            <div className="relative flex items-center justify-center min-h-[300px] md:min-h-[420px]">
               {/* Espiral decorativo */}
               <svg
                 className="absolute inset-0 w-full h-full"
