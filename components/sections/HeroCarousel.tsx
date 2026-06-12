@@ -98,8 +98,8 @@ export default function HeroCarousel() {
     <>
       {/* ── MÓVIL: imagen de fondo, texto encima ── */}
       <div className="md:hidden relative h-[140vw] min-h-[500px] bg-[#e8e0dc]">
-        <Image src={slide.imageMobile} alt="" fill className="object-cover object-center" sizes="100vw" priority={current === 0} />
-        <div className="absolute inset-0 flex flex-col items-center text-center justify-start px-6 pt-10 gap-3">
+        <Image src={slide.imageMobile} alt="" fill className="object-cover object-top z-0" sizes="100vw" priority={current === 0} />
+        <div className="absolute inset-0 flex flex-col items-center text-center justify-start px-6 pt-10 gap-3 z-10">
           <h1 className="font-serif leading-[1.1] text-[36px]" style={{ color: slide.titleColor }}>
             <span className="font-normal block">{slide.title[0]}</span>
             <span className="font-bold block">{slide.title[1]}</span>
