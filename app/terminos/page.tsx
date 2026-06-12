@@ -46,8 +46,9 @@ Para solicitar un pedido personalizado utiliza el formulario disponible en la p�
     title: "5. Envíos",
     content: `Realizamos envíos a todo el territorio colombiano. Los plazos estimados de entrega son:
 
-• Bogotá y área metropolitana: 2 – 4 días hábiles.
-• Otras ciudades y municipios: 4 – 8 días hábiles.
+• Chía y municipios cercanos (Sabana de Bogotá): 1 – 3 días hábiles.
+• Bogotá y otras ciudades principales: 2 – 5 días hábiles.
+• Municipios y zonas apartadas: 5 – 10 días hábiles.
 
 Los tiempos son aproximados y pueden verse afectados por la operadora logística, festivos nacionales o situaciones de fuerza mayor. Bokō no se hace responsable por demoras atribuibles a la empresa transportadora una vez el paquete haya sido despachado.
 
