@@ -23,6 +23,7 @@ export default function IniciarSesionPage() {
   const [showPass, setShowPass] = useState(false);
   const [email,    setEmail]    = useState("");
   const [password, setPassword] = useState("");
+  const [remember, setRemember] = useState(true);
   const [error,    setError]    = useState("");
   const [loading,  setLoading]  = useState(false);
 
@@ -30,6 +31,11 @@ export default function IniciarSesionPage() {
     e.preventDefault();
     setError("");
     setLoading(true);
+    if (remember) {
+      sessionStorage.removeItem("boko_no_persist");
+    } else {
+      sessionStorage.setItem("boko_no_persist", "1");
+    }
     try {
       const { user } = await signIn(email, password);
       if (user) {
@@ -97,7 +103,7 @@ export default function IniciarSesionPage() {
 
           <div className="flex items-center justify-between">
             <label className="flex items-center gap-2 cursor-pointer">
-              <input type="checkbox" className="w-4 h-4 rounded accent-[#796a73] shrink-0" />
+              <input type="checkbox" checked={remember} onChange={e => setRemember(e.target.checked)} className="w-4 h-4 rounded accent-[#796a73] shrink-0" />
               <span className="text-sm text-boko-muted">Recordarme</span>
             </label>
             <Link href="/recuperar-contrasena" className="text-xs text-boko-muted hover:text-boko-dark transition-colors">

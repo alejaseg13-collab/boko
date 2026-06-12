@@ -22,6 +22,7 @@ export async function signIn(email: string, password: string) {
 }
 
 export async function signOut() {
+  if (typeof window !== "undefined") sessionStorage.removeItem("boko_no_persist");
   const { error } = await supabase.auth.signOut();
   if (error) throw error;
 }
