@@ -202,9 +202,9 @@ export default function DetalleProductoPage() {
     return (
       <>
         <div className="relative w-full h-70 overflow-hidden">
-          <img src="/images/products/tienda-banner.jpg" alt="" className="w-full h-full object-cover" />
+          <img src="/images/products/tienda_res.png" alt="" className="w-full h-full object-cover" />
           <div className="absolute inset-0 flex items-center justify-center">
-            <h1 className="font-serif italic text-7xl text-[#796a73] drop-shadow-md">Tienda</h1>
+            <h1 className="font-serif text-5xl text-[#796a73] drop-shadow-md">Tienda</h1>
           </div>
         </div>
         <div className="max-w-300 mx-auto px-6 py-14 flex justify-center">
@@ -247,10 +247,10 @@ export default function DetalleProductoPage() {
   return (
     <>
       {/* Hero */}
-      <div className="relative w-full h-70 overflow-hidden">
-        <img src="/images/products/tienda-banner.jpg" alt="Tienda Bokō" className="w-full h-full object-cover object-center" />
+      <div className="relative w-full h-70 overflow-hidden rounded-br-[50px]">
+        <img src="/images/products/tienda_res.png" alt="Tienda Bokō" className="w-full h-full object-cover object-bottom" />
         <div className="absolute inset-0 flex items-center justify-center">
-          <h1 className="font-serif italic text-7xl text-[#796a73] drop-shadow-md">Tienda</h1>
+          <h1 className="font-serif text-5xl text-[#796a73] drop-shadow-md">Tienda</h1>
         </div>
       </div>
 
@@ -574,6 +574,26 @@ export default function DetalleProductoPage() {
           </div>
         )}
 
+      </div>
+
+      {/* Feature cards */}
+      <div className="max-w-[1512px] mx-auto px-4 md:px-24 pt-4 pb-16">
+        <div className="flex flex-col md:flex-row gap-4 md:gap-10">
+          {[
+            { icon: "/images/icons/icon-box.svg",     title: "Envío gratis",    desc: "Envío gratis a partir de $150.000" },
+            { icon: "/images/icons/icon-wallet.svg",  title: "Pagos flexibles", desc: "Múltiples opciones de pago" },
+            { icon: "/images/icons/icon-headset.svg", title: "Contacto 24/7",   desc: "Estamos conectados todos los días" },
+          ].map(({ icon, title, desc }) => (
+            <div key={title} className="bg-white rounded-3xl flex-1 p-6 shadow-[0px_4px_4px_rgba(0,0,0,0.08),0px_4px_16px_rgba(0,0,0,0.08)]">
+              <div className="flex items-start justify-between mb-4">
+                <img src={icon} alt="" className="w-[34px] h-[34px]" />
+                <img src="/images/icons/icon-tick.svg" alt="" className="w-6 h-6" />
+              </div>
+              <p className="font-serif font-bold text-xl text-[#796a73] leading-snug mb-1">{title}</p>
+              <p className="text-sm text-[#77757f]">{desc}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </>
   );
