@@ -26,7 +26,7 @@ interface Slide {
 const slides: Slide[] = [
   {
     image: "/images/products/hero-banner-mono.png",
-    imageMobile: "/images/products/banner2_res.png",
+    imageMobile: "/images/products/banner1_res.png",
     title: ["Detalles", "en cada punto"],
     subtitle: "Esencia en movimiento",
     body: "El balance entre la técnica del crochet y la funcionalidad de tus accesorios. Dale un toque diferente a tu estilo con un compañero tejido, perfectos para tus maletas o llaveros.",
@@ -39,7 +39,7 @@ const slides: Slide[] = [
   },
   {
     image: "/images/products/hero-banner-2.png",
-    imageMobile: "/images/products/banner1_res.png",
+    imageMobile: "/images/products/banner2_res.png",
     title: ["Tu favorito,", "hecho realidad"],
     subtitle: "Catálogo y pedidos a medida",
     body: "Compañeros tejidos con estructura y alma. Si buscas este modelo en una escala diferente o quieres a otro protagonista de tu serie favorita, dinos qué personaje tienes en mente y nosotros nos encargamos del resto.",
