@@ -57,8 +57,8 @@ export default function WishlistPage() {
   }
 
   return (
-    <div className="max-w-378 mx-auto px-10 py-12">
-      <h1 className="font-serif text-4xl font-bold text-[#796a73] text-center mb-10">
+    <div className="max-w-378 mx-auto px-4 md:px-10 py-8 md:py-12">
+      <h1 className="font-serif text-4xl font-bold text-[#796a73] text-center mb-8 md:mb-10">
         Lista de deseados
       </h1>
 
@@ -74,79 +74,120 @@ export default function WishlistPage() {
             <Link href="/tienda" className="text-sm text-[#796a73] underline">Explorar tienda</Link>
           </div>
         ) : (
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-boko-border">
-                <th className="text-left px-6 py-4 text-xs font-bold text-boko-dark">Producto</th>
-                <th className="text-left px-6 py-4 text-xs font-bold text-boko-dark">Precio</th>
-                <th className="text-left px-6 py-4 text-xs font-bold text-boko-dark">Estado</th>
-                <th className="px-6 py-4" />
-              </tr>
-            </thead>
-            <tbody>
+          <>
+            {/* ── MÓVIL: tarjetas ── */}
+            <div className="md:hidden flex flex-col divide-y divide-boko-border">
               {items.map((item) => {
                 const p = item.products;
                 const img = p.imagenes?.[0] ?? "/images/products/product-1.jpg";
                 return (
-                  <tr key={item.id} className="border-b border-boko-border last:border-0">
-                    {/* Producto */}
-                    <td className="px-6 py-5">
-                      <div className="flex items-center gap-4">
-                        <Link href={`/tienda/${p.slug}`}>
-                          <img src={img} alt={p.nombre} className="w-16 h-16 rounded-xl object-cover shrink-0" />
-                        </Link>
-                        <Link href={`/tienda/${p.slug}`} className="text-boko-dark font-medium hover:underline">
-                          {p.nombre}
-                        </Link>
+                  <div key={item.id} className="p-4 flex flex-col gap-3">
+                    <div className="flex items-center gap-3">
+                      <Link href={`/tienda/${p.slug}`}>
+                        <img src={img} alt={p.nombre} className="w-16 h-16 rounded-xl object-cover shrink-0" />
+                      </Link>
+                      <div className="flex-1 min-w-0">
+                        <Link href={`/tienda/${p.slug}`} className="text-boko-dark font-medium text-sm hover:underline line-clamp-2">{p.nombre}</Link>
+                        <div className="flex items-center gap-2 mt-1">
+                          <span className="text-boko-dark font-medium text-sm">${p.precio.toLocaleString("es-CO")}</span>
+                          {p.precio_anterior && (
+                            <span className="text-gray-400 line-through text-xs">${p.precio_anterior.toLocaleString("es-CO")}</span>
+                          )}
+                        </div>
                       </div>
-                    </td>
-
-                    {/* Precio */}
-                    <td className="px-6 py-5 whitespace-nowrap">
-                      <span className="text-boko-dark font-medium">${p.precio.toLocaleString("es-CO")} </span>
-                      {p.precio_anterior && (
-                        <span className="text-gray-400 line-through text-xs">${p.precio_anterior.toLocaleString("es-CO")}</span>
-                      )}
-                    </td>
-
-                    {/* Estado */}
-                    <td className="px-6 py-5">
+                      <button onClick={() => removeItem(item.id)} className="w-8 h-8 flex items-center justify-center rounded-full border-2 border-gray-300 text-gray-400 hover:border-gray-500 transition-colors shrink-0">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                      </button>
+                    </div>
+                    <div className="flex items-center justify-between gap-3">
                       {p.stock > 0 ? (
                         <span className="px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs font-medium">En Stock</span>
                       ) : (
                         <span className="px-3 py-1 rounded-full bg-red-50 text-red-500 text-xs font-medium">Sin Stock</span>
                       )}
-                    </td>
-
-                    {/* Acciones */}
-                    <td className="px-6 py-5">
-                      <div className="flex items-center gap-3 justify-end">
-                        <button
-                          onClick={() => addToCart(item)}
-                          disabled={p.stock === 0}
-                          className={`px-5 py-2.5 rounded-xl text-xs font-medium transition-opacity whitespace-nowrap ${
-                            p.stock === 0
-                              ? "bg-gray-200 text-gray-400 cursor-default"
-                              : "bg-[#796a73] text-white hover:opacity-80"
-                          }`}
-                        >
-                          Añadir al carrito
-                        </button>
-                        <button
-                          onClick={() => removeItem(item.id)}
-                          className="w-8 h-8 flex items-center justify-center rounded-full border-2 border-gray-300 text-gray-400 hover:border-gray-500 hover:text-gray-600 transition-colors shrink-0"
-                        >
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                            <path d="M18 6L6 18M6 6l12 12"/>
-                          </svg>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
+                      <button
+                        onClick={() => addToCart(item)}
+                        disabled={p.stock === 0}
+                        className={`flex-1 py-2 rounded-xl text-xs font-medium transition-opacity ${
+                          p.stock === 0 ? "bg-gray-200 text-gray-400 cursor-default" : "bg-[#796a73] text-white hover:opacity-80"
+                        }`}
+                      >
+                        Añadir al carrito
+                      </button>
+                    </div>
+                  </div>
                 );
               })}
-            </tbody>
-          </table>
+            </div>
+
+            {/* ── DESKTOP: tabla ── */}
+            <table className="hidden md:table w-full text-sm">
+              <thead>
+                <tr className="border-b border-boko-border">
+                  <th className="text-left px-6 py-4 text-xs font-bold text-boko-dark">Producto</th>
+                  <th className="text-left px-6 py-4 text-xs font-bold text-boko-dark">Precio</th>
+                  <th className="text-left px-6 py-4 text-xs font-bold text-boko-dark">Estado</th>
+                  <th className="px-6 py-4" />
+                </tr>
+              </thead>
+              <tbody>
+                {items.map((item) => {
+                  const p = item.products;
+                  const img = p.imagenes?.[0] ?? "/images/products/product-1.jpg";
+                  return (
+                    <tr key={item.id} className="border-b border-boko-border last:border-0">
+                      <td className="px-6 py-5">
+                        <div className="flex items-center gap-4">
+                          <Link href={`/tienda/${p.slug}`}>
+                            <img src={img} alt={p.nombre} className="w-16 h-16 rounded-xl object-cover shrink-0" />
+                          </Link>
+                          <Link href={`/tienda/${p.slug}`} className="text-boko-dark font-medium hover:underline">
+                            {p.nombre}
+                          </Link>
+                        </div>
+                      </td>
+                      <td className="px-6 py-5 whitespace-nowrap">
+                        <span className="text-boko-dark font-medium">${p.precio.toLocaleString("es-CO")} </span>
+                        {p.precio_anterior && (
+                          <span className="text-gray-400 line-through text-xs">${p.precio_anterior.toLocaleString("es-CO")}</span>
+                        )}
+                      </td>
+                      <td className="px-6 py-5">
+                        {p.stock > 0 ? (
+                          <span className="px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs font-medium">En Stock</span>
+                        ) : (
+                          <span className="px-3 py-1 rounded-full bg-red-50 text-red-500 text-xs font-medium">Sin Stock</span>
+                        )}
+                      </td>
+                      <td className="px-6 py-5">
+                        <div className="flex items-center gap-3 justify-end">
+                          <button
+                            onClick={() => addToCart(item)}
+                            disabled={p.stock === 0}
+                            className={`px-5 py-2.5 rounded-xl text-xs font-medium transition-opacity whitespace-nowrap ${
+                              p.stock === 0
+                                ? "bg-gray-200 text-gray-400 cursor-default"
+                                : "bg-[#796a73] text-white hover:opacity-80"
+                            }`}
+                          >
+                            Añadir al carrito
+                          </button>
+                          <button
+                            onClick={() => removeItem(item.id)}
+                            className="w-8 h-8 flex items-center justify-center rounded-full border-2 border-gray-300 text-gray-400 hover:border-gray-500 hover:text-gray-600 transition-colors shrink-0"
+                          >
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                              <path d="M18 6L6 18M6 6l12 12"/>
+                            </svg>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </>
         )}
       </div>
     </div>

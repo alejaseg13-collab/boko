@@ -83,9 +83,9 @@ export default function CarritoPage() {
   const subtotal = items.reduce((acc, i) => acc + i.products.precio * i.cantidad, 0);
 
   return (
-    <div className="max-w-378 mx-auto px-10 py-12">
+    <div className="max-w-378 mx-auto px-4 md:px-10 py-8 md:py-12">
 
-      <h1 className="font-serif text-4xl font-bold text-[#796a73] text-center mb-10">
+      <h1 className="font-serif text-4xl font-bold text-[#796a73] text-center mb-8 md:mb-10">
         Carrito
       </h1>
 
@@ -106,13 +106,49 @@ export default function CarritoPage() {
           </Link>
         </div>
       ) : (
-        <div className="grid grid-cols-[1fr_300px] gap-6 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-[1fr_300px] gap-6 items-start">
 
           {/* Columna izquierda */}
           <div className="flex flex-col gap-4">
 
-            {/* Tabla */}
-            <div className="bg-white rounded-2xl border border-boko-border overflow-hidden">
+            {/* ── MÓVIL: tarjetas ── */}
+            <div className="md:hidden flex flex-col gap-3">
+              {items.map((item) => {
+                const img = item.products.imagenes?.[0] ?? "/images/products/product-1.jpg";
+                return (
+                  <div key={item.id} className="bg-white rounded-2xl border border-boko-border p-4 flex flex-col gap-3">
+                    <div className="flex items-center gap-3">
+                      <Link href={`/tienda/${item.products.slug}`}>
+                        <img src={img} alt={item.products.nombre} className="w-16 h-16 rounded-xl object-cover shrink-0" />
+                      </Link>
+                      <Link href={`/tienda/${item.products.slug}`} className="flex-1 text-boko-dark font-medium text-sm leading-snug hover:underline">
+                        {item.products.nombre}
+                      </Link>
+                      <button onClick={() => remove(item)} className="w-7 h-7 rounded-full border-2 border-gray-300 flex items-center justify-center text-gray-400 hover:border-gray-500 transition-colors shrink-0">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                      </button>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <button onClick={() => changeQty(item, -1)} className="w-7 h-7 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 text-sm">−</button>
+                        <span className="w-6 text-center text-sm font-medium text-boko-dark">{item.cantidad}</span>
+                        <button onClick={() => changeQty(item, +1)} className="w-7 h-7 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 text-sm">+</button>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-xs text-gray-400">{fmt(item.products.precio)} c/u</p>
+                        <p className="font-bold text-boko-dark text-sm">{fmt(item.products.precio * item.cantidad)}</p>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+              <Link href="/tienda" className="px-5 py-2.5 rounded-xl bg-gray-100 text-boko-dark text-sm font-medium hover:bg-gray-200 transition-colors inline-block w-fit">
+                Volver a la tienda
+              </Link>
+            </div>
+
+            {/* ── DESKTOP: tabla ── */}
+            <div className="hidden md:block bg-white rounded-2xl border border-boko-border overflow-hidden">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-boko-border">
@@ -167,7 +203,7 @@ export default function CarritoPage() {
             </div>
 
             {/* Cupón */}
-            <div className="bg-white rounded-2xl border border-boko-border px-6 py-4 flex items-center gap-4">
+            <div className="bg-white rounded-2xl border border-boko-border px-4 md:px-6 py-4 flex flex-col md:flex-row items-stretch md:items-center gap-3 md:gap-4">
               <span className="text-sm font-bold text-boko-dark whitespace-nowrap">Cupón</span>
               <input
                 type="text"
@@ -176,7 +212,7 @@ export default function CarritoPage() {
                 onChange={e => setCupon(e.target.value)}
                 className="flex-1 px-4 py-2.5 rounded-xl bg-gray-100 text-sm placeholder:text-gray-400 focus:outline-none"
               />
-              <button className="px-5 py-2.5 rounded-xl bg-[#796a73] text-white text-sm font-medium hover:opacity-80 transition-opacity whitespace-nowrap">
+              <button className="w-full md:w-auto px-5 py-2.5 rounded-xl bg-[#796a73] text-white text-sm font-medium hover:opacity-80 transition-opacity whitespace-nowrap">
                 Aplicar cupón
               </button>
             </div>

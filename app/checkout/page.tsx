@@ -111,6 +111,12 @@ export default function CheckoutPage() {
     setError("");
     setSubmitting(true);
 
+    if (!window.ePayco?.checkout) {
+      setError("El sistema de pagos aún no ha cargado. Espera unos segundos y vuelve a intentarlo.");
+      setSubmitting(false);
+      return;
+    }
+
     const shippingAddress = { nombre, apellidos, direccion, departamento, ciudad, codigo_postal: codigoPostal, correo, telefono };
 
     try {
@@ -133,10 +139,12 @@ export default function CheckoutPage() {
         .select()
         .single();
 
-      if (orderError) throw orderError;
+      if (orderError) {
+        throw new Error(orderError.message ?? orderError.details ?? JSON.stringify(orderError));
+      }
 
       // 2. Crear items del pedido
-      await supabase.from("order_items").insert(
+      const { error: itemsError } = await supabase.from("order_items").insert(
         cartItems.map(item => ({
           order_id: (order as any).id,
           product_id: item.product_id,
@@ -147,6 +155,10 @@ export default function CheckoutPage() {
           imagen_url: item.products.imagenes?.[0] ?? null,
         })) as any
       );
+
+      if (itemsError) {
+        throw new Error(itemsError.message ?? itemsError.details ?? JSON.stringify(itemsError));
+      }
 
       // 3. Abrir modal de pago ePayco
       const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? window.location.origin;
@@ -161,7 +173,7 @@ export default function CheckoutPage() {
         invoice: (order as any).id,
         currency: "cop",
         amount: subtotal.toString(),
-        tax_base: subtotal.toString(),
+        tax_base: "0",
         tax: "0",
         country: "CO",
         lang: "es",
@@ -176,7 +188,10 @@ export default function CheckoutPage() {
 
       setSubmitting(false);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Error al procesar el pedido");
+      const msg = err instanceof Error
+        ? err.message
+        : (err as any)?.message ?? (err as any)?.details ?? JSON.stringify(err);
+      setError(msg || "Error al procesar el pedido");
       setSubmitting(false);
     }
   }
