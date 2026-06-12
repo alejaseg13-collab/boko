@@ -34,7 +34,6 @@ export default function CarritoPage() {
   const [items, setItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [isGuest, setIsGuest] = useState(false);
-  const [cupon, setCupon] = useState("");
 
   useEffect(() => {
     async function load() {
@@ -200,21 +199,6 @@ export default function CarritoPage() {
                   Volver a la tienda
                 </Link>
               </div>
-            </div>
-
-            {/* Cupón */}
-            <div className="bg-white rounded-2xl border border-boko-border px-4 md:px-6 py-4 flex flex-col md:flex-row items-stretch md:items-center gap-3 md:gap-4">
-              <span className="text-sm font-bold text-boko-dark whitespace-nowrap">Cupón</span>
-              <input
-                type="text"
-                placeholder="Ingresa el código"
-                value={cupon}
-                onChange={e => setCupon(e.target.value)}
-                className="flex-1 px-4 py-2.5 rounded-xl bg-gray-100 text-sm placeholder:text-gray-400 focus:outline-none"
-              />
-              <button className="w-full md:w-auto px-5 py-2.5 rounded-xl bg-[#796a73] text-white text-sm font-medium hover:opacity-80 transition-opacity whitespace-nowrap">
-                Aplicar cupón
-              </button>
             </div>
 
           </div>

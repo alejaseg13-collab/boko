@@ -48,6 +48,10 @@ export default function CheckoutPage() {
   const [submitting, setSubmitting] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
   const [error, setError] = useState("");
+  const [cupon, setCupon] = useState("");
+  const [descuento, setDescuento] = useState(0);
+  const [cuponError, setCuponError] = useState("");
+  const [cuponOk, setCuponOk] = useState(false);
 
   const [nombre, setNombre] = useState("");
   const [apellidos, setApellidos] = useState("");
@@ -104,6 +108,30 @@ export default function CheckoutPage() {
   }, []);
 
   const subtotal = cartItems.reduce((acc, i) => acc + i.products.precio * i.cantidad, 0);
+  const total = subtotal - descuento;
+
+  async function aplicarCupon() {
+    if (!cupon.trim()) return;
+    setCuponError("");
+    setCuponOk(false);
+    const { data, error } = await supabase
+      .from("cupones")
+      .select("*")
+      .eq("codigo", cupon.trim().toUpperCase())
+      .eq("activo", true)
+      .single();
+    if (error || !data) {
+      setCuponError("Cupón no válido o expirado.");
+      setDescuento(0);
+      return;
+    }
+    const d = (data as any);
+    const monto = d.tipo === "porcentaje"
+      ? Math.round(subtotal * d.valor / 100)
+      : Math.min(d.valor, subtotal);
+    setDescuento(monto);
+    setCuponOk(true);
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -127,9 +155,9 @@ export default function CheckoutPage() {
           user_id: userId,
           status: "Pendiente pago",
           subtotal,
-          descuento: 0,
+          descuento,
           envio: 0,
-          total: subtotal,
+          total,
           metodo_pago: "ePayco",
           tiempo_entrega_dias: 5,
           shipping_address: shippingAddress,
@@ -172,7 +200,7 @@ export default function CheckoutPage() {
         description: cartItems.map(i => i.products.nombre).join(", ").slice(0, 100),
         invoice: (order as any).id,
         currency: "cop",
-        amount: subtotal.toString(),
+        amount: total.toString(),
         tax_base: "0",
         tax: "0",
         country: "CO",
@@ -285,8 +313,33 @@ export default function CheckoutPage() {
 
             <div className="flex flex-col gap-2 text-sm border-t border-boko-border pt-4">
               <div className="flex justify-between text-gray-500"><span>Subtotal:</span><span>{fmt(subtotal)}</span></div>
+              {descuento > 0 && (
+                <div className="flex justify-between text-green-600"><span>Descuento:</span><span>−{fmt(descuento)}</span></div>
+              )}
               <div className="flex justify-between text-gray-500"><span>Envío:</span><span>Gratis</span></div>
-              <div className="flex justify-between font-bold text-boko-dark text-base pt-2 border-t border-boko-border mt-1"><span>Total:</span><span>{fmt(subtotal)}</span></div>
+              <div className="flex justify-between font-bold text-boko-dark text-base pt-2 border-t border-boko-border mt-1"><span>Total:</span><span>{fmt(total)}</span></div>
+            </div>
+
+            {/* Cupón */}
+            <div className="flex flex-col gap-2">
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  placeholder="Ingresa el código"
+                  value={cupon}
+                  onChange={e => { setCupon(e.target.value); setCuponError(""); setCuponOk(false); }}
+                  className="flex-1 px-4 py-2.5 rounded-xl bg-gray-100 text-sm placeholder:text-gray-400 focus:outline-none border border-transparent focus:border-[#796a73]"
+                />
+              </div>
+              <button
+                type="button"
+                onClick={aplicarCupon}
+                className="w-full py-2.5 rounded-xl bg-[#6B9E7A] text-white text-sm font-medium hover:opacity-80 transition-opacity"
+              >
+                Aplicar cupón
+              </button>
+              {cuponError && <p className="text-xs text-red-500">{cuponError}</p>}
+              {cuponOk && <p className="text-xs text-green-600">¡Cupón aplicado correctamente!</p>}
             </div>
 
             <div className="flex items-center gap-2 bg-gray-50 rounded-xl px-4 py-3">
