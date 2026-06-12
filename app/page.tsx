@@ -1,5 +1,6 @@
 import Image from "next/image";
 import HeroCarousel from "@/components/sections/HeroCarousel";
+import HomeForm from "@/components/forms/HomeForm";
 import BestSellersCarousel from "@/components/sections/BestSellersCarousel";
 import ArticulosSection from "@/components/sections/ArticulosSection";
 import TestimonialsSection from "@/components/sections/TestimonialsSection";
@@ -148,29 +149,7 @@ export default function HomePage() {
                 <h3 className="font-serif text-3xl text-[#796a73] leading-tight">
                   Démosle <span className="font-bold italic">vida a tu idea.</span>
                 </h3>
-                <div className="bg-[#f0ece8] rounded-2xl p-6 flex flex-col gap-4">
-                  <div className="flex flex-col gap-1 bg-boko-cream rounded-xl px-4 py-3 shadow-[0_4px_16px_rgba(0,0,0,0.08)]">
-                    <label className="text-xs font-medium text-boko-dark">Nombre completo *</label>
-                    <input type="text" placeholder="Ingresa tu nombre completo" className="text-sm text-boko-muted placeholder:text-boko-muted bg-transparent focus:outline-none" />
-                  </div>
-                  <div className="flex flex-col gap-1 bg-boko-cream rounded-xl px-4 py-3 shadow-[0_4px_16px_rgba(0,0,0,0.08)]">
-                    <label className="text-xs font-medium text-boko-dark">Correo electrónico *</label>
-                    <input type="email" placeholder="Ejemplo: nombre@dominio.com" className="text-sm text-boko-muted placeholder:text-boko-muted bg-transparent focus:outline-none" />
-                  </div>
-                  <div className="flex flex-col gap-1 bg-boko-cream rounded-xl px-4 py-3 shadow-[0_4px_16px_rgba(0,0,0,0.08)]">
-                    <label className="text-xs font-medium text-boko-dark">Descripción *</label>
-                    <textarea rows={4} placeholder="Escribe aquí tu mensaje" className="text-sm text-boko-muted placeholder:text-boko-muted bg-transparent focus:outline-none resize-none" />
-                  </div>
-                  <label className="flex items-start gap-3 cursor-pointer">
-                    <input type="checkbox" className="mt-0.5 w-5 h-5 rounded accent-[#796a73] shrink-0" />
-                    <span className="text-xs text-boko-muted">
-                      Acepto la política de privacidad y términos y condiciones de Boko.
-                    </span>
-                  </label>
-                  <button type="submit" className="w-fit px-8 py-3 rounded-xl bg-[#796a73] text-white text-sm font-medium hover:bg-[#5a4a54] transition-colors">
-                    Enviar
-                  </button>
-                </div>
+                <HomeForm />
               </div>
 
             </div>

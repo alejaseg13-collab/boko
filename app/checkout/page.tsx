@@ -256,8 +256,8 @@ export default function CheckoutPage() {
 
   if (loading) {
     return (
-      <div className="max-w-378 mx-auto px-10 py-12 animate-pulse">
-        <div className="grid grid-cols-[1fr_340px] gap-10">
+      <div className="max-w-378 mx-auto px-4 md:px-10 py-8 md:py-12 animate-pulse">
+        <div className="grid grid-cols-1 md:grid-cols-[1fr_340px] gap-6 md:gap-10">
           <div className="h-96 bg-gray-100 rounded-2xl" />
           <div className="h-64 bg-gray-100 rounded-2xl" />
         </div>
@@ -267,7 +267,7 @@ export default function CheckoutPage() {
 
   if (cartItems.length === 0) {
     return (
-      <div className="max-w-378 mx-auto px-10 py-20 text-center">
+      <div className="max-w-378 mx-auto px-4 md:px-10 py-20 text-center">
         <p className="text-boko-muted text-sm">Tu carrito está vacío.</p>
         <a href="/tienda" className="mt-4 inline-block text-sm text-[#796a73] underline">Ir a la tienda</a>
       </div>
@@ -275,9 +275,9 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="max-w-378 mx-auto px-10 py-12">
+    <div className="max-w-378 mx-auto px-4 md:px-10 py-8 md:py-12">
       <form onSubmit={handleSubmit}>
-        <div className="grid grid-cols-[1fr_340px] gap-10 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-[1fr_340px] gap-6 md:gap-10 items-start">
 
           {/* Formulario */}
           <div className="flex flex-col gap-10">
@@ -292,7 +292,7 @@ export default function CheckoutPage() {
               <Field label="Dirección de entrega">
                 <input type="text" value={direccion} onChange={e => setDireccion(e.target.value)} required className={inputClass} />
               </Field>
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Field label="Departamento">
                   <div className="relative">
                     <select value={departamento} onChange={e => setDepartamento(e.target.value)} className={selectClass}>
@@ -327,7 +327,7 @@ export default function CheckoutPage() {
           </div>
 
           {/* Resumen */}
-          <div className="bg-white rounded-2xl border border-boko-border p-6 flex flex-col gap-5 sticky top-32">
+          <div className="bg-white rounded-2xl border border-boko-border p-6 flex flex-col gap-5 md:sticky md:top-32">
             <h2 className="font-bold text-base text-boko-dark">Resumen del pedido</h2>
 
             <div className="flex flex-col gap-3">

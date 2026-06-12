@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Button from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
+import PersonalizadosForm from "@/components/forms/PersonalizadosForm";
 
 const steps = [
   { num: "01", title: "Cuéntanos tu idea", desc: "Descríbenos el personaje que sueñas, con todos los detalles que quieras." },
@@ -124,39 +125,7 @@ export default function PersonalizadosPage() {
                 <h3 className="font-serif text-3xl md:text-3xl text-[#796a73] leading-tight text-center md:text-left">
                   Démosle <span className="font-bold italic">vida a tu idea.</span>
                 </h3>
-                <div className="bg-[#f0ece8] rounded-2xl p-4 md:p-6 flex flex-col gap-4">
-                  <div className="flex flex-col gap-1 bg-boko-cream rounded-xl px-4 py-3 shadow-[0_4px_16px_rgba(0,0,0,0.08)]">
-                    <label className="text-xs font-medium text-boko-dark">Nombre completo *</label>
-                    <input type="text" placeholder="Ingresa tu nombre completo" className="text-sm text-boko-muted placeholder:text-boko-muted bg-transparent focus:outline-none" />
-                  </div>
-                  <div className="flex flex-col gap-1 bg-boko-cream rounded-xl px-4 py-3 shadow-[0_4px_16px_rgba(0,0,0,0.08)]">
-                    <label className="text-xs font-medium text-boko-dark">Correo electrónico *</label>
-                    <input type="email" placeholder="Ejemplo: nombre@dominio.com" className="text-sm text-boko-muted placeholder:text-boko-muted bg-transparent focus:outline-none" />
-                  </div>
-                  <div className="flex flex-col gap-1 bg-boko-cream rounded-xl px-4 py-3 shadow-[0_4px_16px_rgba(0,0,0,0.08)]">
-                    <label className="text-xs font-medium text-boko-dark">Descripción*</label>
-                    <textarea rows={3} placeholder="Escribe aquí tu mensaje" className="text-sm text-boko-muted placeholder:text-boko-muted bg-transparent focus:outline-none resize-none" />
-                  </div>
-                  <div className="flex flex-col gap-2 bg-boko-cream rounded-xl px-4 py-3 shadow-[0_4px_16px_rgba(0,0,0,0.08)]">
-                    <label className="text-xs font-medium text-boko-dark">Referencias*</label>
-                    <div className="border-2 border-dashed border-boko-border rounded-xl p-4 flex flex-col items-center gap-2 text-center">
-                      <p className="text-xs font-semibold text-boko-dark">Selecciona el archivo</p>
-                      <p className="text-xs text-boko-muted">Se permiten archivos .jpg, .png, .pdf con un tamaño máximo de 3MB</p>
-                      <button type="button" className="mt-1 px-5 py-2 rounded-lg bg-[#796a73] text-white text-xs font-medium hover:bg-[#5a4a54] transition-colors">
-                        Seleccionar archivo
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <label className="flex items-start gap-3 cursor-pointer">
-                  <input type="checkbox" className="mt-0.5 w-5 h-5 rounded accent-[#796a73] shrink-0" />
-                  <span className="text-xs text-boko-muted">
-                    Acepto la política de privacidad y términos y condiciones de Boko.
-                  </span>
-                </label>
-                <button type="submit" className="w-full md:w-fit px-8 py-3 rounded-xl bg-[#796a73] text-white text-sm font-medium hover:bg-[#5a4a54] transition-colors">
-                  Enviar
-                </button>
+                <PersonalizadosForm />
               </div>
 
             </div>
