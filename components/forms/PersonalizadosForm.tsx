@@ -91,7 +91,7 @@ export default function PersonalizadosForm() {
       </div>
       <label className="flex items-start gap-3 cursor-pointer">
         <input type="checkbox" checked={privacidad} onChange={e => setPrivacidad(e.target.checked)} className="mt-0.5 w-5 h-5 rounded accent-[#796a73] shrink-0" />
-        <span className="text-xs text-boko-muted">Acepto la política de privacidad y términos y condiciones de Boko.</span>
+        <span className="text-xs text-boko-muted">Acepto la <a href="/terminos" target="_blank" className="underline hover:text-[#796a73]">política de privacidad y términos y condiciones</a> de Boko.</span>
       </label>
       {error && <p className="text-xs text-red-500">{error}</p>}
       <button type="submit" disabled={sending} className="w-full md:w-fit px-8 py-3 rounded-xl bg-[#796a73] text-white text-sm font-medium hover:bg-[#5a4a54] transition-colors disabled:opacity-60">

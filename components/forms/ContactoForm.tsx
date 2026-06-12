@@ -70,7 +70,7 @@ export default function ContactoForm() {
       </div>
       <label className="flex items-start gap-3 cursor-pointer">
         <input type="checkbox" checked={privacidad} onChange={e => setPrivacidad(e.target.checked)} className="mt-0.5 w-5 h-5 accent-[#796a73] shrink-0" />
-        <span className="text-xs text-[#796a73]/70">Acepto la política de privacidad de Boko.</span>
+        <span className="text-xs text-[#796a73]/70">Acepto la <a href="/terminos" target="_blank" className="underline hover:opacity-80">política de privacidad</a> de Boko.</span>
       </label>
       {error && <p className="text-xs text-red-500">{error}</p>}
       <button type="submit" disabled={sending} className="w-full md:w-fit px-12 py-3 rounded-full bg-[#796a73] text-white text-sm font-medium hover:bg-[#5a4a54] transition-colors disabled:opacity-60">
