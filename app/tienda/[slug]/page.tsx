@@ -576,25 +576,6 @@ export default function DetalleProductoPage() {
 
       </div>
 
-      {/* Feature cards */}
-      <div className="max-w-[1512px] mx-auto px-4 md:px-24 pt-4 pb-16">
-        <div className="flex flex-col md:flex-row gap-4 md:gap-10">
-          {[
-            { icon: "/images/icons/icon-box.svg",     title: "Envío gratis",    desc: "Envío gratis a partir de $150.000" },
-            { icon: "/images/icons/icon-wallet.svg",  title: "Pagos flexibles", desc: "Múltiples opciones de pago" },
-            { icon: "/images/icons/icon-headset.svg", title: "Contacto 24/7",   desc: "Estamos conectados todos los días" },
-          ].map(({ icon, title, desc }) => (
-            <div key={title} className="bg-white rounded-3xl flex-1 p-6 shadow-[0px_4px_4px_rgba(0,0,0,0.08),0px_4px_16px_rgba(0,0,0,0.08)]">
-              <div className="flex items-start justify-between mb-4">
-                <img src={icon} alt="" className="w-[34px] h-[34px]" />
-                <img src="/images/icons/icon-tick.svg" alt="" className="w-6 h-6" />
-              </div>
-              <p className="font-serif font-bold text-xl text-[#796a73] leading-snug mb-1">{title}</p>
-              <p className="text-sm text-[#77757f]">{desc}</p>
-            </div>
-          ))}
-        </div>
-      </div>
     </>
   );
 }
