@@ -37,7 +37,7 @@ export default function TopBar() {
     return () => subscription.unsubscribe();
   }, []);
 
-  const showPromo = checked && !loggedIn;
+  if (checked && loggedIn) return null;
 
   return (
     <div className="text-white text-xs py-3 px-4 md:px-6" style={{ backgroundColor: '#796a73' }}>
@@ -45,14 +45,8 @@ export default function TopBar() {
 
         {/* ── MÓVIL ── */}
         <div className="md:hidden flex-1 flex flex-col items-center text-center gap-0.5 text-[10px]">
-          {showPromo ? (
-            <>
-              <span>Ingresa con tu correo y obtén un 10% OFF en tu primera compra.</span>
-              <Link href="/crear-cuenta" className="underline font-semibold hover:opacity-80">Regístrate</Link>
-            </>
-          ) : (
-            <span>Envío gratis en todos tus pedidos</span>
-          )}
+          <span>Ingresa con tu correo y obtén un 10% OFF en tu primera compra.</span>
+          <Link href="/crear-cuenta" className="underline font-semibold hover:opacity-80">Regístrate</Link>
         </div>
 
         <div className="md:hidden flex flex-col items-center gap-1.5">
@@ -76,14 +70,8 @@ export default function TopBar() {
         </div>
 
         <div className="hidden md:flex items-center gap-1 text-center">
-          {showPromo ? (
-            <>
-              <span>Ingresa con tu correo y obtén un 10% OFF en tu primera compra.</span>
-              <Link href="/crear-cuenta" className="underline font-semibold hover:opacity-80">Regístrate</Link>
-            </>
-          ) : (
-            <span>Envío gratis en todos tus pedidos</span>
-          )}
+          <span>Ingresa con tu correo y obtén un 10% OFF en tu primera compra.</span>
+          <Link href="/crear-cuenta" className="underline font-semibold hover:opacity-80">Regístrate</Link>
         </div>
 
         <div className="hidden md:flex items-center gap-3">
