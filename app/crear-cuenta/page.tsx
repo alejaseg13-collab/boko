@@ -53,7 +53,7 @@ export default function CrearCuentaPage() {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-[50%_50%] min-h-[85vh]">
+    <div className="grid grid-cols-1 md:grid-cols-[50%_50%] md:min-h-[85vh]">
 
       {/* Imagen izquierda */}
       <div className="hidden md:block relative">
@@ -65,8 +65,8 @@ export default function CrearCuentaPage() {
       </div>
 
       {/* Formulario derecha */}
-      <div className="flex flex-col items-center justify-center px-4 py-10 md:px-10 md:py-12 bg-white col-span-1 gap-6">
-        <img src="/images/logo.png" alt="Bokō" className="h-32 object-contain" />
+      <div className="flex flex-col items-center justify-start md:justify-center px-4 pt-6 pb-10 md:px-10 md:py-12 bg-white col-span-1 gap-6">
+        <img src="/images/logo.png" alt="Bokō" className="h-24 md:h-32 object-contain mix-blend-multiply" />
         <form onSubmit={handleSubmit} className="w-full max-w-lg bg-white rounded-2xl shadow-[0_12px_60px_rgba(0,0,0,0.18)] p-6 md:p-10 flex flex-col gap-4 md:gap-5">
           <h1 className="font-serif text-2xl text-[#796a73] text-center">Crear cuenta</h1>
 

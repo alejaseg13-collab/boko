@@ -14,8 +14,8 @@ const info = [
   { href: "/tratamiento-datos", label: "Tratamiento de datos" },
 ];
 
-const textColor = "text-[#c9c1c6]";
-const headingColor = "text-[#c9c1c6]";
+const textColor = "text-white";
+const headingColor = "text-white";
 
 export default function Footer() {
   return (
@@ -23,16 +23,16 @@ export default function Footer() {
       <div className="max-w-[1512px] mx-auto px-6 md:px-16 pt-10 pb-6">
 
         {/* Main row */}
-        <div className="flex flex-wrap gap-8 md:gap-16 pb-8 border-b border-white/20 items-start">
+        <div className="flex flex-col md:flex-row md:flex-wrap gap-8 md:gap-16 pb-8 border-b border-white/20 md:items-start">
 
           {/* Logo */}
-          <div className="shrink-0 self-center">
+          <div className="shrink-0">
             <Image
               src="/images/logo.png"
               alt="Bokō — Tejer el alma"
               width={320}
               height={150}
-              className="h-36 w-auto object-contain invert mix-blend-screen"
+              className="h-28 md:h-36 w-auto object-contain brightness-0 invert"
             />
           </div>
 
@@ -82,9 +82,9 @@ export default function Footer() {
           </div>
 
           {/* Síguenos */}
-          <div className="md:ml-auto self-center">
+          <div className="md:ml-auto md:self-center">
             <h4 className={`font-bold text-xl mb-4 ${headingColor}`}>Síguenos</h4>
-            <div className="flex items-center gap-4 bg-boko-cream rounded-2xl px-5 py-3">
+            <div className="flex items-center gap-4 bg-boko-cream rounded-2xl px-5 py-3 w-fit">
               <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="text-[#796a73] hover:opacity-70 transition-opacity">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
@@ -107,7 +107,7 @@ export default function Footer() {
 
         {/* Copyright */}
         <div className={`pt-5 text-xs ${textColor}`}>
-          ©2026 Boko · All rights reserved
+          ©2026 Boko - All rights reserved
         </div>
 
       </div>

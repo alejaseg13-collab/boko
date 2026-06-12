@@ -22,35 +22,43 @@ export default function ContactoPage() {
   return (
     <>
       {/* Hero */}
-      <div className="relative w-full h-70 overflow-hidden rounded-bl-[48px]">
+      <section className="relative overflow-hidden h-52 md:h-70 flex items-center justify-center rounded-br-[48px]">
+        <Image
+          src="/images/products/contacto_res.png"
+          alt="Contacto Bokō"
+          fill
+          className="md:hidden object-cover object-bottom"
+          sizes="100vw"
+          priority
+        />
         <Image
           src="/images/products/contacto-banner.png"
           alt="Contacto Bokō"
           fill
-          className="object-cover object-center"
+          className="hidden md:block object-cover object-center"
           sizes="100vw"
           priority
         />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <h1 className="font-serif text-5xl italic text-white/80 drop-shadow-lg">Contacto</h1>
+        <div className="relative z-10 text-center">
+          <h1 className="font-serif text-4xl md:text-5xl italic text-white/80 drop-shadow-lg">Contacto</h1>
         </div>
-      </div>
+      </section>
 
       {/* No dudes en contactarme */}
-      <section className="pt-16 pb-10 text-center">
-        <h2 className="font-serif text-5xl text-[#796a73] leading-tight">
+      <section className="pt-10 md:pt-16 pb-8 md:pb-10 text-center">
+        <h2 className="font-serif text-4xl md:text-5xl text-[#796a73] leading-tight">
           No dudes en<br /><span className="font-bold">contactarme si:</span>
         </h2>
       </section>
 
       {/* Tres tarjetas */}
-      <section className="pb-20">
+      <section className="pb-12 md:pb-20">
         <div className="max-w-325 mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {cards.map(({ dark, icon, text }, i) => (
               <div
                 key={i}
-                className={`rounded-3xl p-10 flex flex-col items-center gap-6 text-center shadow-[0_4px_24px_rgba(0,0,0,0.08)] ${
+                className={`rounded-3xl p-8 md:p-10 flex flex-col items-center gap-5 md:gap-6 text-center shadow-[0_4px_24px_rgba(0,0,0,0.08)] ${
                   dark ? "bg-[#796a73] text-white" : "bg-boko-cream text-[#796a73]"
                 }`}
               >
@@ -65,9 +73,9 @@ export default function ContactoPage() {
       </section>
 
       {/* Formulario de contacto */}
-      <section className="bg-[#f0ede9] rounded-tl-[72px] px-20 pt-24 pb-24">
+      <section className="bg-[#f0ede9] rounded-tl-[72px] px-6 md:px-20 pt-10 md:pt-24 pb-10 md:pb-24">
         <div className="max-w-[1200px] mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-[5fr_7fr] gap-20 items-center">
+          <div className="grid grid-cols-1 md:grid-cols-[5fr_7fr] gap-10 md:gap-20 items-center">
 
             {/* Izquierda */}
             <div className="flex flex-col gap-6">
@@ -78,7 +86,7 @@ export default function ContactoPage() {
                 Puedes formalizar tu requerimiento a través del formulario de esta página, vía mensaje directo en Instagram o mediante nuestra línea de atención en WhatsApp. Centralizamos la comunicación en estos canales para asegurar el seguimiento técnico de cada pieza, desde la validación del diseño hasta la confirmación de despacho.
               </p>
 
-              <div className="grid grid-cols-2 gap-x-6 gap-y-5 mt-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5 mt-2">
                 {[
                   {
                     icon: <img src="/images/icons/whatsapp.svg" width={36} height={36} alt="" className="shrink-0" />,
@@ -108,7 +116,8 @@ export default function ContactoPage() {
               </div>
 
               <div className="border-t border-[#796a73]/20 pt-5 mt-2">
-                <p className="font-semibold text-base text-[#796a73] mb-3">Síguenos</p>
+                <div className="flex items-center gap-4 md:block">
+                  <p className="font-semibold text-base text-[#796a73] md:mb-3">Síguenos</p>
                 <div className="flex items-center gap-4">
                   {[
                     <path key="fb" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>,
@@ -120,12 +129,13 @@ export default function ContactoPage() {
                     </a>
                   ))}
                 </div>
+                </div>
               </div>
             </div>
 
             {/* Derecha — formulario */}
             <div className="flex flex-col gap-5">
-              <h2 className="font-serif text-5xl text-[#796a73] leading-tight">
+              <h2 className="font-serif text-3xl md:text-5xl text-[#796a73] leading-tight">
                 Te damos respuesta<br /><span className="font-bold">lo antes posible</span>
               </h2>
               <div className="flex flex-col gap-3">
@@ -148,7 +158,7 @@ export default function ContactoPage() {
                 <input type="checkbox" className="mt-0.5 w-5 h-5 accent-[#796a73] shrink-0" />
                 <span className="text-xs text-[#796a73]/70">Acepto la política de privacidad de Boko.</span>
               </label>
-              <button type="submit" className="w-fit px-12 py-3 rounded-full bg-[#796a73] text-white text-sm font-medium hover:bg-[#5a4a54] transition-colors">
+              <button type="submit" className="w-full md:w-fit px-12 py-3 rounded-full bg-[#796a73] text-white text-sm font-medium hover:bg-[#5a4a54] transition-colors">
                 Enviar
               </button>
             </div>
