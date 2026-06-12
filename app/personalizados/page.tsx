@@ -15,15 +15,23 @@ export default function PersonalizadosPage() {
       {/* Hero */}
       <section className="relative overflow-hidden h-52 flex items-center justify-center rounded-br-[48px]">
         <Image
+          src="/images/products/persdos_res.png"
+          alt="Personalizados Bokō"
+          fill
+          className="md:hidden object-cover object-bottom"
+          sizes="100vw"
+          priority
+        />
+        <Image
           src="/images/products/personalizados-banner.jpg"
           alt="Personalizados Bokō"
           fill
-          className="object-cover object-center"
+          className="hidden md:block object-cover object-center"
           sizes="100vw"
           priority
         />
         <div className="relative z-10 text-center">
-          <h1 className="font-serif text-5xl text-white/75 drop-shadow-lg">Personalizados</h1>
+          <h1 className="font-serif text-4xl md:text-5xl text-white/75 drop-shadow-lg">Personalizados</h1>
         </div>
       </section>
 
