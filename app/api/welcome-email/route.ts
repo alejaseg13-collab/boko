@@ -15,39 +15,49 @@ export async function POST(req: NextRequest) {
       html: `
         <!DOCTYPE html>
         <html>
-        <head><meta charset="utf-8"></head>
-        <body style="font-family: Arial, sans-serif; color: #333; margin: 0; padding: 40px 20px; background: #ffffff;">
-          <div style="max-width: 520px; margin: 0 auto;">
+        <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+        <body style="margin: 0; padding: 0; background-color: #f0ebe6; font-family: Georgia, 'Times New Roman', serif;">
+          <div style="max-width: 560px; margin: 40px auto; background-color: #faf7f4; border-radius: 16px; overflow: hidden;">
 
-            <p style="font-size: 15px; margin: 0 0 8px;">Hola${nombre ? ` ${nombre}` : ""},</p>
+            <!-- Header banner -->
+            <div style="background-color: #796a73; height: 120px; width: 100%;"></div>
 
-            <p style="font-size: 15px; line-height: 1.6; margin: 0 0 16px;">
-              Tu cuenta en <strong>Bokō</strong> fue creada correctamente.
-            </p>
+            <!-- Content -->
+            <div style="padding: 40px 48px 48px;">
 
-            <p style="font-size: 15px; line-height: 1.6; margin: 0 0 16px;">
-              Como agradecimiento por registrarte, tenemos un pequeño detalle para tu primera compra.
-              Usa el siguiente código al momento de pagar:
-            </p>
+              <h1 style="font-family: Georgia, serif; font-size: 28px; font-weight: normal; color: #2c2c2c; margin: 0 0 20px;">
+                ¡Hola${nombre ? `, ${nombre}` : ""}!
+              </h1>
 
-            <p style="font-family: monospace; font-size: 22px; font-weight: bold; color: #796a73; letter-spacing: 0.1em; margin: 24px 0; padding: 16px; background: #f9f6f2; border-left: 4px solid #796a73;">
-              TFBWBOKO10
-            </p>
+              <p style="font-family: Arial, sans-serif; font-size: 15px; line-height: 1.6; color: #444; margin: 0 0 28px;">
+                Gracias por unirte a Bokō. Para celebrar tu primera compra, te regalamos un cupón de <strong>10% de descuento</strong>.
+              </p>
 
-            <p style="font-size: 14px; color: #555; margin: 0 0 24px;">
-              Aplica un 10% de descuento en tu primera compra. Solo puede usarse una vez.
-            </p>
+              <!-- Coupon box -->
+              <div style="border: 2px dashed #796a73; border-radius: 12px; padding: 24px 20px; text-align: center; margin: 0 0 28px;">
+                <p style="font-family: Arial, sans-serif; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: #796a73; margin: 0 0 10px;">TU CUPÓN</p>
+                <p style="font-family: Arial, sans-serif; font-size: 26px; font-weight: bold; letter-spacing: 0.18em; color: #2c2c2c; margin: 0 0 10px;">TFBWBOKO10</p>
+                <p style="font-family: Arial, sans-serif; font-size: 12px; color: #888; margin: 0;">Válido para un solo uso en tu primera compra</p>
+              </div>
 
-            <p style="font-size: 15px; margin: 0 0 32px;">
-              <a href="https://boko-attt.vercel.app/tienda" style="color: #796a73;">Ver tienda →</a>
-            </p>
+              <!-- CTA button -->
+              <a href="https://bokocrochet.com/tienda" style="display: block; background-color: #796a73; color: #ffffff; text-align: center; text-decoration: none; font-family: Arial, sans-serif; font-size: 15px; padding: 16px 24px; border-radius: 10px; margin: 0 0 24px;">
+                Ir a la tienda →
+              </a>
 
-            <hr style="border: none; border-top: 1px solid #eee; margin: 0 0 24px;" />
+              <p style="font-family: Arial, sans-serif; font-size: 12px; color: #999; text-align: center; line-height: 1.6; margin: 0;">
+                Ingresa el código al momento de pagar en el campo "Cupón".<br/>Solo puede usarse una vez.
+              </p>
 
-            <p style="font-size: 13px; color: #888; margin: 0;">
-              Nubia — Bokō<br/>
-              <a href="mailto:nubia@bokocrochet.com" style="color: #888;">nubia@bokocrochet.com</a>
-            </p>
+            </div>
+
+            <!-- Footer -->
+            <div style="padding: 20px 48px; text-align: center; border-top: 1px solid #e8e2de;">
+              <p style="font-family: Arial, sans-serif; font-size: 12px; color: #aaa; margin: 0;">
+                © 2026 Bokō — Tejer el alma
+              </p>
+            </div>
+
           </div>
         </body>
         </html>
