@@ -47,3 +47,10 @@ body {
   color: var(--foreground);
   font-family: "Vendura", var(--font-inter), Arial, sans-serif;
 }
+
+@media (max-width: 767px) {
+  .mobile-single-col {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+}

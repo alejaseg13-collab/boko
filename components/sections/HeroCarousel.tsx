@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 
-type ButtonVariant = "filled-purple" | "outline-purple" | "outline-white" | "filled-dark" | "outline-dark";
+type ButtonVariant = "filled-purple" | "outline-purple" | "outline-white" | "filled-dark" | "outline-dark" | "filled-green";
 
 interface SlideButton {
   label: string;
@@ -26,7 +26,7 @@ interface Slide {
 const slides: Slide[] = [
   {
     image: "/images/products/hero-banner-mono.png",
-    imageMobile: "/images/products/banner1_res.png",
+    imageMobile: "/images/products/banner2_res.png",
     title: ["Detalles", "en cada punto"],
     subtitle: "Esencia en movimiento",
     body: "El balance entre la técnica del crochet y la funcionalidad de tus accesorios. Dale un toque diferente a tu estilo con un compañero tejido, perfectos para tus maletas o llaveros.",
@@ -34,12 +34,12 @@ const slides: Slide[] = [
     subtitleColor: "#2B1A0E",
     bodyColor: "#77757f",
     buttons: [
-      { label: "Ver tienda", href: "/tienda", variant: "outline-dark" },
+      { label: "Ver tienda", href: "/tienda", variant: "filled-green" },
     ],
   },
   {
     image: "/images/products/hero-banner-2.png",
-    imageMobile: "/images/products/banner2_res.png",
+    imageMobile: "/images/products/banner1_res.png",
     title: ["Tu favorito,", "hecho realidad"],
     subtitle: "Catálogo y pedidos a medida",
     body: "Compañeros tejidos con estructura y alma. Si buscas este modelo en una escala diferente o quieres a otro protagonista de tu serie favorita, dinos qué personaje tienes en mente y nosotros nos encargamos del resto.",
@@ -72,6 +72,7 @@ const desktopButtonStyles: Record<ButtonVariant, string> = {
   "outline-white": "border border-white text-white hover:bg-white hover:text-[#2B1A0E]",
   "filled-dark": "bg-[#2B1A0E] text-white hover:bg-[#1a0e06]",
   "outline-dark": "border border-[#2B1A0E] text-[#2B1A0E] hover:bg-[#2B1A0E] hover:text-white",
+  "filled-green": "bg-[#4a5e38] text-white hover:bg-[#3a4a2a]",
 };
 
 const mobileButtonStyles: Record<ButtonVariant, string> = {
@@ -80,6 +81,7 @@ const mobileButtonStyles: Record<ButtonVariant, string> = {
   "outline-white": "border border-[#2B1A0E] text-[#2B1A0E]",
   "filled-dark": "bg-[#2B1A0E] text-white",
   "outline-dark": "border border-[#2B1A0E] text-[#2B1A0E]",
+  "filled-green": "bg-[#4a5e38] text-white",
 };
 
 export default function HeroCarousel() {

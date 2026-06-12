@@ -17,10 +17,10 @@ const SIZES = ["Mini", "Pequeño", "Mediano", "Grande"];
 function Checkbox({ label, checked, onChange }: { label: string; checked: boolean; onChange: () => void }) {
   return (
     <label className="flex items-center gap-3 cursor-pointer" onClick={onChange}>
-      <div className={`w-6 h-6 rounded-lg flex items-center justify-center border-2 transition-colors shrink-0 ${checked ? "bg-[#6B9E7A] border-[#6B9E7A]" : "border-[#C5BFB8] bg-white"}`}>
+      <div className={`w-6 h-6 rounded-full flex items-center justify-center border-2 transition-colors shrink-0 ${checked ? "bg-[#6B9E7A] border-[#6B9E7A]" : "border-[#C5BFB8] bg-white"}`}>
         {checked && <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>}
       </div>
-      <span className="text-sm text-boko-dark">{label}</span>
+      <span className="text-sm font-medium text-boko-dark">{label}</span>
     </label>
   );
 }
@@ -92,7 +92,7 @@ function TiendaCard({ product }: { product: DBProduct }) {
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col w-full">
       <Link href={`/tienda/${product.slug}`} className="block">
         <div className="relative aspect-square bg-white rounded-2xl overflow-hidden mb-2 group">
           <img src={image} alt={product.nombre} className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300" />
@@ -109,7 +109,11 @@ function TiendaCard({ product }: { product: DBProduct }) {
       </button>
       <Link href={`/tienda/${product.slug}`} className="flex flex-col gap-0.5">
         <h3 className="font-serif font-bold text-boko-dark text-sm leading-snug">{product.nombre}</h3>
-        {product.categories && <span className="text-xs text-boko-muted">{product.categories.nombre}</span>}
+        {(product.categories || product.tallas?.[0]) && (
+          <span className="text-xs text-boko-muted">
+            {[product.categories?.nombre, product.tallas?.[0]].filter(Boolean).join(" / ")}
+          </span>
+        )}
         <p className="font-serif font-bold text-boko-dark text-lg mt-1">${product.precio.toLocaleString("es-CO")}</p>
         {product.precio_anterior && <p className="text-xs text-boko-muted line-through">${product.precio_anterior.toLocaleString("es-CO")}</p>}
       </Link>
@@ -175,37 +179,42 @@ export default function TiendaPage() {
     setPriceMin(absMin); setPriceMax(absMax); setSearch("");
   }
 
-  const filterPanel = (
-    <div className="flex flex-col gap-7">
-      <div className="mb-0">
-        <h4 className="text-base text-boko-muted mb-4">Por categoría</h4>
-        <div className="flex flex-col gap-3">
-          {CATS.map(c => <Checkbox key={c} label={c} checked={cats.includes(c)} onChange={() => toggleCat(c)} />)}
+  function FilterPanel({ mobile = false }: { mobile?: boolean }) {
+    const hCls = mobile
+      ? "font-serif text-xl font-bold text-[#796a73] mb-4 text-center"
+      : "text-base text-boko-muted mb-4";
+    return (
+      <div className="flex flex-col gap-7">
+        <div>
+          <h4 className={hCls}>Por categoría</h4>
+          <div className="flex flex-col gap-3">
+            {CATS.map(c => <Checkbox key={c} label={c} checked={cats.includes(c)} onChange={() => toggleCat(c)} />)}
+          </div>
+        </div>
+        <div className="border-b border-boko-border" />
+        <div>
+          <h4 className={hCls}>Por tamaño</h4>
+          <div className="flex flex-col gap-3">
+            {SIZES.map(s => <Checkbox key={s} label={s} checked={sizes.includes(s)} onChange={() => toggleSize(s)} />)}
+          </div>
+        </div>
+        <div className="border-b border-boko-border" />
+        <div>
+          <h4 className={`${hCls} mb-3`}>Por precio</h4>
+          <PriceSlider absMin={absMin} absMax={absMax} valMin={priceMin} valMax={priceMax} onMin={setPriceMin} onMax={setPriceMax} />
+        </div>
+        <div className="border-b border-boko-border" />
+        <div>
+          <h4 className={hCls}>Por popularidad</h4>
+          <div className="flex flex-col gap-3">
+            <RadioBtn label="Más nuevos"            checked={sort === "nuevos"}      onChange={() => setSort("nuevos")} />
+            <RadioBtn label="Precio: menor a mayor" checked={sort === "precio_asc"}  onChange={() => setSort("precio_asc")} />
+            <RadioBtn label="Precio: mayor a menor" checked={sort === "precio_desc"} onChange={() => setSort("precio_desc")} />
+          </div>
         </div>
       </div>
-      <div className="border-b border-boko-border" />
-      <div>
-        <h4 className="text-base text-boko-muted mb-4">Por tamaño</h4>
-        <div className="flex flex-col gap-3">
-          {SIZES.map(s => <Checkbox key={s} label={s} checked={sizes.includes(s)} onChange={() => toggleSize(s)} />)}
-        </div>
-      </div>
-      <div className="border-b border-boko-border" />
-      <div>
-        <h4 className="text-base text-boko-muted mb-3">Por precio</h4>
-        <PriceSlider absMin={absMin} absMax={absMax} valMin={priceMin} valMax={priceMax} onMin={setPriceMin} onMax={setPriceMax} />
-      </div>
-      <div className="border-b border-boko-border" />
-      <div>
-        <h4 className="text-base text-boko-muted mb-4">Por popularidad</h4>
-        <div className="flex flex-col gap-3">
-          <RadioBtn label="Más nuevos"            checked={sort === "nuevos"}      onChange={() => setSort("nuevos")} />
-          <RadioBtn label="Precio: menor a mayor" checked={sort === "precio_asc"}  onChange={() => setSort("precio_asc")} />
-          <RadioBtn label="Precio: mayor a menor" checked={sort === "precio_desc"} onChange={() => setSort("precio_desc")} />
-        </div>
-      </div>
-    </div>
-  );
+    );
+  }
 
   return (
     <div>
@@ -228,7 +237,7 @@ export default function TiendaPage() {
             </button>
           </div>
           <div className="px-6 py-6 flex-1">
-            {filterPanel}
+            <FilterPanel mobile />
           </div>
           <div className="px-6 py-4 border-t border-boko-border sticky bottom-0 bg-white flex gap-3">
             {hasFilters && (
@@ -257,13 +266,39 @@ export default function TiendaPage() {
               )}
             </div>
             <div className="border-b border-boko-border mb-7" />
-            {filterPanel}
+            <FilterPanel />
           </aside>
 
           {/* Contenido principal */}
           <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-3 mb-6">
-              <h2 className="font-serif text-3xl md:text-4xl font-bold text-[#796a73] shrink-0">Artículos</h2>
+
+            {/* MÓVIL: fila 1 — título + botón filtros */}
+            <div className="md:hidden flex items-center justify-between mb-3">
+              <h2 className="font-serif text-3xl font-bold text-[#796a73]">Artículos</h2>
+              <button onClick={() => setFilterOpen(true)} className="relative text-boko-muted p-1">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="4" y1="6" x2="20" y2="6" /><line x1="8" y1="12" x2="16" y2="12" /><line x1="11" y1="18" x2="13" y2="18" />
+                </svg>
+                {hasFilters && (
+                  <span className="absolute top-0 right-0 w-4 h-4 rounded-full bg-[#796a73] text-white text-[9px] flex items-center justify-center">
+                    {cats.length + sizes.length + (sort !== "nuevos" ? 1 : 0) + (priceMin !== absMin || priceMax !== absMax ? 1 : 0)}
+                  </span>
+                )}
+              </button>
+            </div>
+
+            {/* MÓVIL: fila 2 — barra de búsqueda */}
+            <div className="md:hidden relative mb-4">
+              <svg className="absolute left-4 top-1/2 -translate-y-1/2 text-boko-muted" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
+              </svg>
+              <input type="text" placeholder="Buscar" value={search} onChange={e => setSearch(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 rounded-full border border-boko-border bg-white text-sm text-boko-dark placeholder:text-boko-muted focus:outline-none focus:border-boko-muted" />
+            </div>
+
+            {/* DESKTOP: título + búsqueda en misma fila */}
+            <div className="hidden md:flex items-center gap-5 mb-6">
+              <h2 className="font-serif text-4xl font-bold text-[#796a73] shrink-0">Artículos</h2>
               <div className="flex-1 relative">
                 <svg className="absolute left-4 top-1/2 -translate-y-1/2 text-boko-muted" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
@@ -271,22 +306,42 @@ export default function TiendaPage() {
                 <input type="text" placeholder="Buscar" value={search} onChange={e => setSearch(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 rounded-full border border-boko-border bg-white text-sm text-boko-dark placeholder:text-boko-muted focus:outline-none focus:border-boko-muted" />
               </div>
-              {/* Botón filtros — solo móvil */}
-              <button onClick={() => setFilterOpen(true)}
-                className="md:hidden flex items-center gap-2 px-4 py-3 rounded-full border border-boko-border bg-white text-sm text-boko-dark shrink-0">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="4" y1="6" x2="20" y2="6" /><line x1="8" y1="12" x2="16" y2="12" /><line x1="11" y1="18" x2="13" y2="18" />
-                </svg>
-                Filtros{hasFilters ? ` (${cats.length + sizes.length + (sort !== "nuevos" ? 1 : 0)})` : ""}
-              </button>
             </div>
 
-            <p className="text-base text-boko-dark font-medium mb-8">
-              {loading ? "Cargando..." : `Mostrando ${sorted.length} resultado${sorted.length !== 1 ? "s" : ""}`}
-            </p>
+            {/* Resultados + filtros activos */}
+            <div className="mb-4 md:mb-8">
+              <p className="text-base text-boko-dark font-medium mb-3">
+                {loading ? "Cargando..." : `Mostrando ${sorted.length} de ${products.length} resultado${products.length !== 1 ? "s" : ""}`}
+              </p>
+              {hasFilters && (
+                <div className="flex flex-col gap-2">
+                  <span className="text-sm text-boko-muted">Filtros activos</span>
+                  <div className="flex flex-wrap gap-2">
+                    {(priceMin !== absMin || priceMax !== absMax) && (
+                      <span className="flex items-center gap-1 px-3 py-1 rounded-full border border-boko-border text-xs text-boko-dark bg-white">
+                        Price: ${priceMin.toLocaleString("es-CO")} - ${priceMax.toLocaleString("es-CO")}
+                        <button onClick={() => { setPriceMin(absMin); setPriceMax(absMax); }} className="ml-1 text-boko-muted hover:text-boko-dark">×</button>
+                      </span>
+                    )}
+                    {cats.map(c => (
+                      <span key={c} className="flex items-center gap-1 px-3 py-1 rounded-full border border-boko-border text-xs text-boko-dark bg-white">
+                        {c} <button onClick={() => toggleCat(c)} className="ml-1 text-boko-muted hover:text-boko-dark">×</button>
+                      </span>
+                    ))}
+                    {sizes.map(s => (
+                      <span key={s} className="flex items-center gap-1 px-3 py-1 rounded-full border border-boko-border text-xs text-boko-dark bg-white">
+                        {s} <button onClick={() => toggleSize(s)} className="ml-1 text-boko-muted hover:text-boko-dark">×</button>
+                      </span>
+                    ))}
+                  </div>
+                  <button onClick={clearFilters} className="text-sm text-[#796a73] underline font-medium self-start">Borrar filtros</button>
+                </div>
+              )}
+            </div>
 
             {loading ? (
-              <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-10">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-10">
+
                 {Array.from({ length: 6 }).map((_, i) => (
                   <div key={i} className="flex flex-col gap-3 animate-pulse">
                     <div className="aspect-square bg-gray-100 rounded-2xl" />
@@ -306,7 +361,8 @@ export default function TiendaPage() {
                 )}
               </div>
             ) : (
-              <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-10">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-10">
+
                 {sorted.map(p => <TiendaCard key={p.id} product={p} />)}
               </div>
             )}

@@ -21,37 +21,47 @@ const socials = [
 export default function TopBar() {
   return (
     <div className="text-white text-xs py-3 px-4 md:px-6" style={{ backgroundColor: '#796a73' }}>
-      <div className="max-w-[1512px] mx-auto md:px-10 flex items-center justify-between gap-4">
+        <div className="max-w-[1512px] mx-auto md:px-10 flex items-center justify-between gap-8">
 
-        {/* Móvil: promo izq | Desktop: whatsapp izq */}
-        <div className="flex items-center gap-2 md:hidden">
-          <span>Ingresa con tu correo y obtén un 10% OFF en tu primera compra.</span>
-          <Link href="/crear-cuenta" className="underline font-semibold hover:opacity-80 whitespace-nowrap">Regístrate</Link>
-        </div>
-        <div className="hidden md:flex items-center gap-2">
-          <img src="/images/icons/whatsapp.svg" width={16} height={16} alt="" />
-          <span>+57 322 2284303</span>
-        </div>
-
-        {/* Móvil: whatsapp + redes der | Desktop: promo centro */}
-        <div className="hidden md:flex items-center gap-1 text-center">
+        {/* ── MÓVIL ── */}
+        {/* Izquierda: promo + Regístrate apilados */}
+        <div className="md:hidden flex-1 flex flex-col items-center text-center gap-0.5 text-[10px]">
           <span>Ingresa con tu correo y obtén un 10% OFF en tu primera compra.</span>
           <Link href="/crear-cuenta" className="underline font-semibold hover:opacity-80">Regístrate</Link>
         </div>
 
-        {/* Móvil: whatsapp + redes apilados | Desktop: solo redes */}
-        <div className="flex flex-col items-end gap-1 md:flex-row md:items-center md:gap-3">
-          <div className="flex items-center gap-2 md:hidden">
+        {/* Derecha: WA número arriba + redes abajo */}
+        <div className="md:hidden flex flex-col items-center gap-1.5">
+          <div className="flex items-center gap-1.5">
             <img src="/images/icons/whatsapp.svg" width={16} height={16} alt="" />
-            <span className="whitespace-nowrap">+57 322 2284303</span>
+            <span className="font-bold whitespace-nowrap text-sm">+57 322 2284303</span>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 self-end mr-6">
             {socials.map(({ label, href, icon }) => (
               <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label} className="hover:opacity-70 transition-opacity">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">{icon}</svg>
               </a>
             ))}
           </div>
+        </div>
+
+        {/* ── DESKTOP ── */}
+        <div className="hidden md:flex items-center gap-2">
+          <img src="/images/icons/whatsapp.svg" width={16} height={16} alt="" />
+          <span>+57 322 2284303</span>
+        </div>
+
+        <div className="hidden md:flex items-center gap-1 text-center">
+          <span>Ingresa con tu correo y obtén un 10% OFF en tu primera compra.</span>
+          <Link href="/crear-cuenta" className="underline font-semibold hover:opacity-80">Regístrate</Link>
+        </div>
+
+        <div className="hidden md:flex items-center gap-3">
+          {socials.map(({ label, href, icon }) => (
+            <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label} className="hover:opacity-70 transition-opacity">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">{icon}</svg>
+            </a>
+          ))}
         </div>
 
       </div>

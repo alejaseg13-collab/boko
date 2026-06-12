@@ -121,10 +121,10 @@ export default function TestimonialsSection() {
         <div className="text-center mb-12">
           <p className="font-serif text-5xl text-[#796a73]">Esto dicen</p>
           <p className="font-serif text-5xl font-bold text-[#796a73]">nuestros clientes</p>
-          <div className="flex justify-center mt-6">
+          <div className="mt-6">
             <button
               onClick={() => setShowForm(!showForm)}
-              className="inline-flex items-center justify-center px-7 py-3 rounded-full bg-[#796a73] text-white text-sm font-medium hover:bg-[#5a4a54] transition-colors"
+              className="flex w-full md:inline-flex md:w-auto items-center justify-center px-7 py-3 rounded-full bg-[#796a73] text-white text-sm font-medium hover:bg-[#5a4a54] transition-colors"
             >
               {showForm ? "Cancelar" : "Escribir reseña"}
             </button>

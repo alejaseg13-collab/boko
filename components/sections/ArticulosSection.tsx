@@ -106,6 +106,7 @@ function ProductCard({ p }: { p: DBProduct }) {
 export default function ArticulosSection() {
   const [products, setProducts] = useState<DBProduct[]>([]);
   const [loading, setLoading]   = useState(true);
+  const [filterOpen, setFilterOpen] = useState(false);
 
   const [cats,  setCats]  = useState<string[]>([]);
   const [sizes, setSizes] = useState<string[]>([]);
@@ -163,12 +164,103 @@ export default function ArticulosSection() {
 
   const display = sorted.slice(0, hasFilters ? 12 : 6);
 
+  const filterBadgeCount = cats.length + sizes.length + (sort !== "nuevos" ? 1 : 0) + (priceMin !== absMin || priceMax !== absMax ? 1 : 0);
+
+  const sidebarFilters = (
+    <div className="flex flex-col gap-7">
+      <div>
+        <h4 className="text-base text-boko-muted mb-4">Por categoría</h4>
+        <div className="flex flex-col gap-3">
+          {CATS.map(c => <Checkbox key={c} label={c} checked={cats.includes(c)} onChange={() => toggleCat(c)} />)}
+        </div>
+      </div>
+      <div className="border-b border-boko-border" />
+      <div>
+        <h4 className="text-base text-boko-muted mb-4">Por tamaño</h4>
+        <div className="flex flex-col gap-3">
+          {SIZES.map(s => <Checkbox key={s} label={s} checked={sizes.includes(s)} onChange={() => toggleSize(s)} />)}
+        </div>
+      </div>
+      <div className="border-b border-boko-border" />
+      <div>
+        <h4 className="text-base text-boko-muted mb-3">Por precio</h4>
+        <PriceSlider absMin={absMin} absMax={absMax} valMin={priceMin} valMax={priceMax} onMin={setPriceMin} onMax={setPriceMax} />
+      </div>
+      <div className="border-b border-boko-border" />
+      <div>
+        <h4 className="text-base text-boko-muted mb-4">Por popularidad</h4>
+        <div className="flex flex-col gap-3">
+          <RadioBtn label="Más nuevos"            checked={sort === "nuevos"}      onChange={() => setSort("nuevos")} />
+          <RadioBtn label="Precio: menor a mayor" checked={sort === "precio_asc"}  onChange={() => setSort("precio_asc")} />
+          <RadioBtn label="Precio: mayor a menor" checked={sort === "precio_desc"} onChange={() => setSort("precio_desc")} />
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <section className="bg-boko-cream pt-14 pb-0">
-      <div className="max-w-[1512px] mx-auto px-24">
+      {/* Modal filtros — solo móvil */}
+      {filterOpen && (
+        <div className="md:hidden fixed inset-0 z-50 flex flex-col bg-white overflow-y-auto">
+          <div className="flex items-center justify-between px-6 py-5 border-b border-boko-border sticky top-0 bg-white">
+            <h3 className="font-serif text-3xl font-bold text-boko-dark">Filtros</h3>
+            <button onClick={() => setFilterOpen(false)} className="text-boko-muted hover:text-boko-dark">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round">
+                <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+          </div>
+          <div className="px-6 py-6 flex-1">
+            <div className="flex flex-col gap-7">
+              <div>
+                <h4 className="font-serif text-xl font-bold text-[#796a73] mb-4 text-center">Por categoría</h4>
+                <div className="flex flex-col gap-3">
+                  {CATS.map(c => <Checkbox key={c} label={c} checked={cats.includes(c)} onChange={() => toggleCat(c)} />)}
+                </div>
+              </div>
+              <div className="border-b border-boko-border" />
+              <div>
+                <h4 className="font-serif text-xl font-bold text-[#796a73] mb-4 text-center">Por tamaño</h4>
+                <div className="flex flex-col gap-3">
+                  {SIZES.map(s => <Checkbox key={s} label={s} checked={sizes.includes(s)} onChange={() => toggleSize(s)} />)}
+                </div>
+              </div>
+              <div className="border-b border-boko-border" />
+              <div>
+                <h4 className="font-serif text-xl font-bold text-[#796a73] mb-3 text-center">Por precio</h4>
+                <PriceSlider absMin={absMin} absMax={absMax} valMin={priceMin} valMax={priceMax} onMin={setPriceMin} onMax={setPriceMax} />
+              </div>
+              <div className="border-b border-boko-border" />
+              <div>
+                <h4 className="font-serif text-xl font-bold text-[#796a73] mb-4 text-center">Por popularidad</h4>
+                <div className="flex flex-col gap-3">
+                  <RadioBtn label="Más nuevos"            checked={sort === "nuevos"}      onChange={() => setSort("nuevos")} />
+                  <RadioBtn label="Precio: menor a mayor" checked={sort === "precio_asc"}  onChange={() => setSort("precio_asc")} />
+                  <RadioBtn label="Precio: mayor a menor" checked={sort === "precio_desc"} onChange={() => setSort("precio_desc")} />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="px-6 py-4 border-t border-boko-border sticky bottom-0 bg-white flex gap-3">
+            {hasFilters && (
+              <button onClick={() => { clearFilters(); setFilterOpen(false); }}
+                className="flex-1 py-3 rounded-xl border border-boko-border text-sm text-boko-dark font-medium">
+                Limpiar
+              </button>
+            )}
+            <button onClick={() => setFilterOpen(false)}
+              className="flex-1 py-3 rounded-xl bg-[#796a73] text-white text-sm font-medium">
+              Ver resultados
+            </button>
+          </div>
+        </div>
+      )}
+
+      <div className="max-w-[1512px] mx-auto px-4 md:px-24">
         <div className="flex gap-14">
 
-          {/* Sidebar */}
+          {/* Sidebar — solo desktop */}
           <aside className="hidden md:block w-[210px] shrink-0">
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-serif text-3xl font-bold text-boko-dark">Filtros</h3>
@@ -177,39 +269,38 @@ export default function ArticulosSection() {
               )}
             </div>
             <div className="border-b border-boko-border mb-7" />
-
-            <div className="mb-7">
-              <h4 className="text-base text-boko-muted mb-4">Por categoría</h4>
-              <div className="flex flex-col gap-3">
-                {CATS.map(c => <Checkbox key={c} label={c} checked={cats.includes(c)} onChange={() => toggleCat(c)} />)}
-              </div>
-            </div>
-
-            <div className="mb-7">
-              <h4 className="text-base text-boko-muted mb-4">Por tamaño</h4>
-              <div className="flex flex-col gap-3">
-                {SIZES.map(s => <Checkbox key={s} label={s} checked={sizes.includes(s)} onChange={() => toggleSize(s)} />)}
-              </div>
-            </div>
-
-            <div className="mb-7">
-              <h4 className="text-base text-boko-muted mb-3">Por precio</h4>
-              <PriceSlider absMin={absMin} absMax={absMax} valMin={priceMin} valMax={priceMax} onMin={setPriceMin} onMax={setPriceMax} />
-            </div>
-
-            <div className="mb-7">
-              <h4 className="text-base text-boko-muted mb-4">Por popularidad</h4>
-              <div className="flex flex-col gap-3">
-                <RadioBtn label="Más nuevos"            checked={sort === "nuevos"}      onChange={() => setSort("nuevos")} />
-                <RadioBtn label="Precio: menor a mayor" checked={sort === "precio_asc"}  onChange={() => setSort("precio_asc")} />
-                <RadioBtn label="Precio: mayor a menor" checked={sort === "precio_desc"} onChange={() => setSort("precio_desc")} />
-              </div>
-            </div>
+            {sidebarFilters}
           </aside>
 
           {/* Contenido */}
           <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-5 mb-6">
+
+            {/* MÓVIL: fila 1 — título + botón filtros */}
+            <div className="md:hidden flex items-center justify-between mb-3">
+              <h2 className="font-serif text-3xl font-bold text-[#796a73]">Artículos</h2>
+              <button onClick={() => setFilterOpen(true)} className="relative text-boko-muted p-1">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="4" y1="6" x2="20" y2="6" /><line x1="8" y1="12" x2="16" y2="12" /><line x1="11" y1="18" x2="13" y2="18" />
+                </svg>
+                {hasFilters && (
+                  <span className="absolute top-0 right-0 w-4 h-4 rounded-full bg-[#796a73] text-white text-[9px] flex items-center justify-center">
+                    {filterBadgeCount}
+                  </span>
+                )}
+              </button>
+            </div>
+
+            {/* MÓVIL: fila 2 — barra de búsqueda */}
+            <div className="md:hidden relative mb-4">
+              <svg className="absolute left-4 top-1/2 -translate-y-1/2 text-boko-muted" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
+              </svg>
+              <input type="text" placeholder="Buscar" value={search} onChange={e => setSearch(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 rounded-full border border-boko-border bg-white text-sm text-boko-dark placeholder:text-boko-muted focus:outline-none focus:border-boko-muted" />
+            </div>
+
+            {/* DESKTOP: título + búsqueda en misma fila */}
+            <div className="hidden md:flex items-center gap-5 mb-6">
               <h2 className="font-serif text-4xl font-bold text-[#796a73] shrink-0">Artículos</h2>
               <div className="flex-1 relative">
                 <svg className="absolute left-4 top-1/2 -translate-y-1/2 text-boko-muted" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -221,7 +312,7 @@ export default function ArticulosSection() {
             </div>
 
             {loading ? (
-              <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-10">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-10">
                 {Array.from({ length: 6 }).map((_, i) => (
                   <div key={i} className="flex flex-col gap-2 animate-pulse">
                     <div className="aspect-square bg-gray-100 rounded-2xl" />
@@ -245,7 +336,7 @@ export default function ArticulosSection() {
                   Mostrando {display.length} artículo{display.length !== 1 ? "s" : ""}
                   {sorted.length > display.length && ` de ${sorted.length}`}
                 </p>
-                <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-10">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-10">
                   {display.map(p => <ProductCard key={p.id} p={p} />)}
                 </div>
               </>
@@ -253,7 +344,7 @@ export default function ArticulosSection() {
 
             <div className="mt-10">
               <Link href="/tienda"
-                className="inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-[#796a73] text-white text-sm font-medium hover:bg-[#5a4a54] transition-colors">
+                className="flex md:inline-flex w-full md:w-auto items-center justify-center px-8 py-3.5 rounded-2xl bg-[#796a73] text-white text-sm font-medium hover:bg-[#5a4a54] transition-colors">
                 Mira la tienda completa aquí
               </Link>
             </div>

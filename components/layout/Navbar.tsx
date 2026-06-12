@@ -75,12 +75,12 @@ export default function Navbar() {
       <header className="bg-boko-cream border-b border-boko-border sticky top-0 z-50">
         <div className="max-w-[1512px] mx-auto px-4 md:px-6 h-[72px] md:h-[93px] flex items-center justify-between">
 
-          {/* MÓVIL: hamburguesa izquierda | DESKTOP: logo izquierda */}
-          <div className="flex items-center">
+          {/* Izquierda: hamburguesa + logo (móvil) | logo solo (desktop) */}
+          <div className="flex items-center gap-3">
             {/* Hamburguesa — solo móvil */}
             <button
               aria-label="Menú"
-              className="md:hidden text-[#796a73] hover:text-[#5a4a54] transition-colors mr-3"
+              className="md:hidden text-[#796a73] hover:text-[#5a4a54] transition-colors"
               onClick={() => setMenuOpen(v => !v)}
             >
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round">
@@ -90,18 +90,12 @@ export default function Navbar() {
               </svg>
             </button>
 
-            {/* Logo — visible en desktop a la izquierda */}
-            <Link href="/" className="hidden md:block shrink-0">
+            {/* Logo — móvil: junto al hamburger | desktop: solo */}
+            <Link href="/" className="shrink-0">
               <Image src="/images/logo.png" alt="Bokō" width={190} height={72}
-                className="h-16 w-auto object-contain mix-blend-multiply" priority />
+                className="h-10 md:h-16 w-auto object-contain mix-blend-multiply" priority />
             </Link>
           </div>
-
-          {/* Logo centrado — solo móvil */}
-          <Link href="/" className="md:hidden absolute left-1/2 -translate-x-1/2">
-            <Image src="/images/logo.png" alt="Bokō" width={140} height={52}
-              className="h-10 w-auto object-contain mix-blend-multiply" priority />
-          </Link>
 
           {/* Nav links — solo desktop */}
           <nav className="hidden md:flex items-center gap-8">
@@ -129,7 +123,7 @@ export default function Navbar() {
 
       {/* Mobile menu — fullscreen overlay */}
       {menuOpen && (
-        <div className="md:hidden fixed inset-0 z-40 flex flex-col" style={{ backgroundColor: '#796a73' }}>
+        <div className="md:hidden fixed inset-0 z-60 flex flex-col" style={{ backgroundColor: '#796a73' }}>
           {/* Header del menú */}
           <div className="h-[72px] flex items-center px-4 border-b border-white/20">
             <button
@@ -149,7 +143,7 @@ export default function Navbar() {
             {links.map(({ href, label }, i) => (
               <div key={href}>
                 <Link href={href}
-                  className="block py-5 text-white font-bold text-2xl tracking-wide"
+                  className="block py-4 text-white font-bold text-lg tracking-wide"
                   onClick={() => setMenuOpen(false)}>
                   {label}
                 </Link>
