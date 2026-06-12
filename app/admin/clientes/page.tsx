@@ -17,6 +17,7 @@ export default function AdminClientesPage() {
   const [clients, setClients] = useState<Client[]>([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
+  const [deleting, setDeleting] = useState<string | null>(null);
 
   useEffect(() => {
     async function load() {
@@ -53,6 +54,30 @@ export default function AdminClientesPage() {
     }
     load();
   }, []);
+
+  async function handleDelete(client: Client, name: string) {
+    if (!confirm(`¿Eliminar a ${name}? Esta acción no se puede deshacer.`)) return;
+    setDeleting(client.id);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const res = await fetch("/api/admin/delete-user", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${session?.access_token}`,
+        },
+        body: JSON.stringify({ userId: client.id }),
+      });
+      if (!res.ok) {
+        const { error } = await res.json();
+        alert(error ?? "Error al eliminar");
+        return;
+      }
+      setClients(prev => prev.filter(c => c.id !== client.id));
+    } finally {
+      setDeleting(null);
+    }
+  }
 
   const filtered = clients.filter(c =>
     [c.nombre, c.apellidos, c.email].filter(Boolean).join(" ").toLowerCase().includes(search.toLowerCase())
@@ -121,7 +146,13 @@ export default function AdminClientesPage() {
                       </span>
                     </td>
                     <td className="px-6 py-4 text-right">
-                      <button className="text-[#796a73] text-xs hover:underline font-medium">Ver perfil</button>
+                      <button
+                        onClick={() => handleDelete(client, name)}
+                        disabled={deleting === client.id}
+                        className="text-red-400 text-xs hover:text-red-600 hover:underline font-medium disabled:opacity-40 transition-colors"
+                      >
+                        {deleting === client.id ? "Eliminando..." : "Eliminar perfil"}
+                      </button>
                     </td>
                   </tr>
                 );
