@@ -202,9 +202,10 @@ export default function DetalleProductoPage() {
     return (
       <>
         <div className="relative w-full h-70 overflow-hidden">
-          <img src="/images/products/tienda_res.png" alt="" className="w-full h-full object-cover" />
+          <img src="/images/products/tienda_res.png" alt="" className="md:hidden w-full h-full object-cover object-bottom" />
+          <img src="/images/products/tienda-banner.jpg" alt="" className="hidden md:block w-full h-full object-cover object-center" />
           <div className="absolute inset-0 flex items-center justify-center">
-            <h1 className="font-serif text-5xl text-[#796a73] drop-shadow-md">Tienda</h1>
+            <h1 className="font-serif text-5xl md:text-7xl text-[#796a73] drop-shadow-md">Tienda</h1>
           </div>
         </div>
         <div className="max-w-300 mx-auto px-6 py-14 flex justify-center">
@@ -248,9 +249,10 @@ export default function DetalleProductoPage() {
     <>
       {/* Hero */}
       <div className="relative w-full h-70 overflow-hidden rounded-br-[50px]">
-        <img src="/images/products/tienda_res.png" alt="Tienda Bokō" className="w-full h-full object-cover object-bottom" />
+        <img src="/images/products/tienda_res.png" alt="Tienda Bokō" className="md:hidden w-full h-full object-cover object-bottom" />
+        <img src="/images/products/tienda-banner.jpg" alt="Tienda Bokō" className="hidden md:block w-full h-full object-cover object-center" />
         <div className="absolute inset-0 flex items-center justify-center">
-          <h1 className="font-serif text-5xl text-[#796a73] drop-shadow-md">Tienda</h1>
+          <h1 className="font-serif text-5xl md:text-7xl text-[#796a73] drop-shadow-md">Tienda</h1>
         </div>
       </div>
 
