@@ -142,7 +142,9 @@ export default function CrearCuentaPage() {
               onChange={e => setTerms(e.target.checked)}
               className="w-5 h-5 rounded accent-[#796a73] shrink-0"
             />
-            <span className="text-sm text-boko-muted">Acepto los términos y condiciones.</span>
+            <span className="text-sm text-boko-muted">
+              Acepto los <a href="/terminos" target="_blank" className="underline hover:text-[#796a73]">términos y condiciones</a>.
+            </span>
           </label>
 
           <button
