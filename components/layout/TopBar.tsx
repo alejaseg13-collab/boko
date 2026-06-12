@@ -1,4 +1,8 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase";
 
 const socials = [
   {
@@ -19,18 +23,38 @@ const socials = [
 ];
 
 export default function TopBar() {
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [checked, setChecked] = useState(false);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setLoggedIn(!!session);
+      setChecked(true);
+    });
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, session) => {
+      setLoggedIn(!!session);
+    });
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const showPromo = checked && !loggedIn;
+
   return (
     <div className="text-white text-xs py-3 px-4 md:px-6" style={{ backgroundColor: '#796a73' }}>
-        <div className="max-w-[1512px] mx-auto md:px-10 flex items-center justify-between gap-8">
+      <div className="max-w-[1512px] mx-auto md:px-10 flex items-center justify-between gap-8">
 
         {/* ── MÓVIL ── */}
-        {/* Izquierda: promo + Regístrate apilados */}
         <div className="md:hidden flex-1 flex flex-col items-center text-center gap-0.5 text-[10px]">
-          <span>Ingresa con tu correo y obtén un 10% OFF en tu primera compra.</span>
-          <Link href="/crear-cuenta" className="underline font-semibold hover:opacity-80">Regístrate</Link>
+          {showPromo ? (
+            <>
+              <span>Ingresa con tu correo y obtén un 10% OFF en tu primera compra.</span>
+              <Link href="/crear-cuenta" className="underline font-semibold hover:opacity-80">Regístrate</Link>
+            </>
+          ) : (
+            <span>Envío gratis en todos tus pedidos</span>
+          )}
         </div>
 
-        {/* Derecha: WA número arriba + redes abajo */}
         <div className="md:hidden flex flex-col items-center gap-1.5">
           <div className="flex items-center gap-1.5">
             <img src="/images/icons/whatsapp.svg" width={16} height={16} alt="" />
@@ -52,8 +76,14 @@ export default function TopBar() {
         </div>
 
         <div className="hidden md:flex items-center gap-1 text-center">
-          <span>Ingresa con tu correo y obtén un 10% OFF en tu primera compra.</span>
-          <Link href="/crear-cuenta" className="underline font-semibold hover:opacity-80">Regístrate</Link>
+          {showPromo ? (
+            <>
+              <span>Ingresa con tu correo y obtén un 10% OFF en tu primera compra.</span>
+              <Link href="/crear-cuenta" className="underline font-semibold hover:opacity-80">Regístrate</Link>
+            </>
+          ) : (
+            <span>Envío gratis en todos tus pedidos</span>
+          )}
         </div>
 
         <div className="hidden md:flex items-center gap-3">

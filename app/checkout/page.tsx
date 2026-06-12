@@ -49,6 +49,7 @@ export default function CheckoutPage() {
   const [userId, setUserId] = useState<string | null>(null);
   const [error, setError] = useState("");
   const [cupon, setCupon] = useState("");
+  const [cuponId, setCuponId] = useState<string | null>(null);
   const [descuento, setDescuento] = useState(0);
   const [cuponError, setCuponError] = useState("");
   const [cuponOk, setCuponOk] = useState(false);
@@ -114,22 +115,42 @@ export default function CheckoutPage() {
     if (!cupon.trim()) return;
     setCuponError("");
     setCuponOk(false);
+
     const { data, error } = await supabase
       .from("cupones")
       .select("*")
       .eq("codigo", cupon.trim().toUpperCase())
       .eq("activo", true)
       .single();
+
     if (error || !data) {
       setCuponError("Cupón no válido o expirado.");
       setDescuento(0);
       return;
     }
+
     const d = (data as any);
+
+    // Verificar uso único: si ya lo usó este usuario, rechazar
+    if (d.uso_unico && userId) {
+      const { data: uso } = await supabase
+        .from("cupon_usos")
+        .select("id")
+        .eq("cupon_id", d.id)
+        .eq("user_id", userId)
+        .maybeSingle();
+      if (uso) {
+        setCuponError("Este cupón ya fue utilizado.");
+        setDescuento(0);
+        return;
+      }
+    }
+
     const monto = d.tipo === "porcentaje"
       ? Math.round(subtotal * d.valor / 100)
       : Math.min(d.valor, subtotal);
     setDescuento(monto);
+    setCuponId(d.id);
     setCuponOk(true);
   }
 
@@ -188,7 +209,16 @@ export default function CheckoutPage() {
         throw new Error(itemsError.message ?? itemsError.details ?? JSON.stringify(itemsError));
       }
 
-      // 3. Abrir modal de pago ePayco
+      // 3. Registrar uso del cupón si aplica
+      if (cuponId && userId) {
+        await supabase.from("cupon_usos").insert({
+          cupon_id: cuponId,
+          user_id: userId,
+          order_id: (order as any).id,
+        } as any);
+      }
+
+      // 4. Abrir modal de pago ePayco
       const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? window.location.origin;
       const handler = window.ePayco.checkout.configure({
         key: process.env.NEXT_PUBLIC_EPAYCO_PUBLIC_KEY!,

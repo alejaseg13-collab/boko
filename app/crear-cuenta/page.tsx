@@ -44,6 +44,11 @@ export default function CrearCuentaPage() {
     setLoading(true);
     try {
       await signUp(email, password, nombre, apellidos);
+      fetch("/api/welcome-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, nombre }),
+      }).catch(() => {});
       router.push("/perfil");
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Error al crear la cuenta");
