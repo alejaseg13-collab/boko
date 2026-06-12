@@ -122,10 +122,12 @@ function TiendaCard({ product }: { product: DBProduct }) {
 }
 
 export default function TiendaPage() {
+  const PRODUCTS_PER_PAGE = 12;
   const [products, setProducts] = useState<DBProduct[]>([]);
   const [loading, setLoading]   = useState(true);
   const [search, setSearch]     = useState("");
   const [filterOpen, setFilterOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const [cats,  setCats]  = useState<string[]>([]);
   const [sizes, setSizes] = useState<string[]>([]);
@@ -156,6 +158,8 @@ export default function TiendaPage() {
       });
   }, []);
 
+  useEffect(() => { setCurrentPage(1); }, [cats, sizes, sort, priceMin, priceMax, search]);
+
   function toggleCat(c: string)  { setCats(p  => p.includes(c) ? p.filter(x => x !== c) : [...p, c]); }
   function toggleSize(s: string) { setSizes(p => p.includes(s) ? p.filter(x => x !== s) : [...p, s]); }
 
@@ -170,6 +174,21 @@ export default function TiendaPage() {
     : sort === "precio_desc"
     ? [...filtered].sort((a, b) => b.precio - a.precio)
     : filtered;
+
+  const totalPages = Math.ceil(sorted.length / PRODUCTS_PER_PAGE);
+  const paginated = sorted.slice((currentPage - 1) * PRODUCTS_PER_PAGE, currentPage * PRODUCTS_PER_PAGE);
+
+  function getPaginationItems(current: number, total: number): (number | "…")[] {
+    if (total <= 6) return Array.from({ length: total }, (_, i) => i + 1);
+    const pages = new Set([1, 2, current - 1, current, current + 1, total - 1, total].filter(n => n >= 1 && n <= total));
+    const nums = [...pages].sort((a, b) => a - b);
+    const result: (number | "…")[] = [];
+    for (let i = 0; i < nums.length; i++) {
+      if (i > 0 && nums[i] - nums[i - 1] > 1) result.push("…");
+      result.push(nums[i]);
+    }
+    return result;
+  }
 
   const hasFilters = cats.length > 0 || sizes.length > 0 || sort !== "nuevos"
     || priceMin !== absMin || priceMax !== absMax || search;
@@ -361,31 +380,53 @@ export default function TiendaPage() {
                 )}
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-10">
+              <>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-10">
+                  {paginated.map(p => <TiendaCard key={p.id} product={p} />)}
+                </div>
 
-                {sorted.map(p => <TiendaCard key={p.id} product={p} />)}
-              </div>
+                {totalPages > 1 && (
+                  <div className="flex items-center justify-center gap-1 mt-10 bg-white rounded-2xl px-4 py-3 shadow-sm w-fit mx-auto">
+                    <button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1}
+                      className="w-8 h-8 flex items-center justify-center text-boko-muted disabled:opacity-30">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+                    </button>
+                    {getPaginationItems(currentPage, totalPages).map((item, i) =>
+                      typeof item === "number" ? (
+                        <button key={i} onClick={() => setCurrentPage(item)}
+                          className={`w-8 h-8 flex items-center justify-center rounded-full text-sm font-medium transition-colors ${item === currentPage ? "bg-[#796a73] text-white" : "text-boko-dark hover:bg-boko-border"}`}>
+                          {item}
+                        </button>
+                      ) : (
+                        <span key={i} className="w-8 h-8 flex items-center justify-center text-boko-muted text-sm">…</span>
+                      )
+                    )}
+                    <button onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages}
+                      className="w-8 h-8 flex items-center justify-center text-boko-muted disabled:opacity-30">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+                    </button>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>
       </div>
 
       <div className="max-w-[1512px] mx-auto px-4 md:px-24 pt-4 pb-16">
-        <div className="flex flex-col md:flex-row gap-10 items-center justify-center">
+        <div className="flex flex-col md:flex-row gap-4 md:gap-10">
           {[
             { icon: "/images/icons/icon-box.svg",     title: "Envío gratis",    desc: "Envío gratis a partir de $150.000" },
             { icon: "/images/icons/icon-wallet.svg",  title: "Pagos flexibles", desc: "Múltiples opciones de pago" },
             { icon: "/images/icons/icon-headset.svg", title: "Contacto 24/7",   desc: "Estamos conectados todos los días" },
           ].map(({ icon, title, desc }) => (
-            <div key={title} className="bg-boko-cream rounded-4xl h-29 flex-1 flex items-center px-7.5 shadow-[0px_4px_4px_rgba(0,0,0,0.08),0px_4px_16px_rgba(0,0,0,0.08)]">
-              <div className="flex items-center gap-6 w-full">
-                <img src={icon} alt="" className="w-[34px] h-[34px] shrink-0" />
-                <div className="flex-1 min-w-0">
-                  <p className="font-serif font-bold text-2xl text-[#796a73] tracking-[0.24px] leading-[1.32]">{title}</p>
-                  <p className="text-sm text-[#77757f] leading-[1.16]">{desc}</p>
-                </div>
-                <img src="/images/icons/icon-tick.svg" alt="" className="w-[23px] h-[23px] shrink-0" />
+            <div key={title} className="bg-white rounded-3xl flex-1 p-6 shadow-[0px_4px_4px_rgba(0,0,0,0.08),0px_4px_16px_rgba(0,0,0,0.08)]">
+              <div className="flex items-start justify-between mb-4">
+                <img src={icon} alt="" className="w-[34px] h-[34px]" />
+                <img src="/images/icons/icon-tick.svg" alt="" className="w-6 h-6" />
               </div>
+              <p className="font-serif font-bold text-xl text-[#796a73] leading-snug mb-1">{title}</p>
+              <p className="text-sm text-[#77757f]">{desc}</p>
             </div>
           ))}
         </div>
